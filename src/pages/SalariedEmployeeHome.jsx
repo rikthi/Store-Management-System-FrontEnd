@@ -1,3 +1,3 @@
-export function EmployeeHome() {
+export function SalariedEmployeeHome() {
     return <div className="p-8 text-xl font-bold">Employee Dashboard</div>;
 }

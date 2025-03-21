@@ -6,7 +6,7 @@ export function LoginPage() {
     return (
         <div
             className="flex items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url('src/assets/loginBg.png')" }}
+            style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
             <h1 className="absolute top-5 left-5 text-white text-2xl font-bold bg-black bg-opacity-50 px-4 py-2 rounded-lg">
                 Store Management System

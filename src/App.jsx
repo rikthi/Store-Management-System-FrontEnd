@@ -4,7 +4,7 @@ import {LoginPage} from "./pages/LoginPage";
 import {RegistrationPage} from "./pages/RegistrationPage";
 import {SupervisorHome} from "./pages/SupervisorHome";
 import {ManagerHome} from "./pages/ManagerHome";
-import {EmployeeHome} from "./pages/EmployeeHome";
+import {SalariedEmployeeHome} from "./pages/SalariedEmployeeHome.jsx";
 import {CustomerHome} from "./pages/CustomerHome";
 import "./index.css"; // Import TailwindCSS styles
 
@@ -17,7 +17,7 @@ function App() {
                     <Route path="/register" element={<RegistrationPage />} />
                     <Route path="/supervisor" element={<SupervisorHome />} />
                     <Route path="/manager" element={<ManagerHome />} />
-                    <Route path="/employee" element={<EmployeeHome />} />
+                    <Route path="/employee" element={<SalariedEmployeeHome />} />
                     <Route path="/customer" element={<CustomerHome />} />
                 </Routes>
             </div>
