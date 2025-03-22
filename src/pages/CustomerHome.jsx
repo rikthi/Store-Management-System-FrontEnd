@@ -34,7 +34,7 @@ export function CustomerHome() {
 
     return (
         <div
-            className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
+            className="page-background"
             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
             {/* Overlay with 50% opacity */}

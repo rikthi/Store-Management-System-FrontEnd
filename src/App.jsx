@@ -17,7 +17,7 @@ function App() {
         <Router>
             <div className="min-h-screen bg-gray-100 text-gray-900">
                 <Routes>
-                    <Route path="/" element={<HourlyEmployeeHome />} />
+                    <Route path="/" element={<SalariedEmployeeHome />} />
                     <Route path="/register" element={<RegistrationPage />} />
                     <Route path="/supervisor" element={<SupervisorHome />} />
                     <Route path="/manager" element={<ManagerHome />} />

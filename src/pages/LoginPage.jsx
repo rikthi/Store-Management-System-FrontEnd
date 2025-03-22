@@ -5,7 +5,7 @@ export function LoginPage() {
 
     return (
         <div
-            className="flex items-center justify-center h-screen bg-cover bg-center"
+            className= "page-background"
             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
             <div className="bg-white p-8 rounded-lg shadow-lg w-96 text-center bg-opacity-90">

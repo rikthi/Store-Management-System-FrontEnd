@@ -34,7 +34,7 @@ export function SalariedEmployeeHome() {
 
     return (
         <div
-            className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
+            className="page-background"
             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
             {/* Overlay with 50% opacity */}
@@ -42,7 +42,7 @@ export function SalariedEmployeeHome() {
 
             {/* Content container positioned above the overlay */}
             <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
-                <h1 className="text-3xl font-bold text-white">Hourly Employee Dashboard</h1>
+                <h1 className="text-3xl font-bold text-white">Salaried Employee Dashboard</h1>
 
                 {/* Buttons */}
                 <div className="space-y-4 w-80">
@@ -50,10 +50,13 @@ export function SalariedEmployeeHome() {
                         View Personal Information
                     </button>
                     <button onClick={fetchReceipts} className="btn-primary">
-                        View Pay Scale
+                        View Salary
                     </button>
                     <button onClick={fetchReceipts} className="btn-primary">
-                        Enter Attendance
+                        Add a Customer
+                    </button>
+                    <button onClick={fetchReceipts} className="btn-primary">
+                        Create Receipt
                     </button>
                 </div>
 

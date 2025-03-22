@@ -41,7 +41,7 @@ export function HourlyEmployeeHome() {
             <div className="absolute inset-0 bg-black opacity-60"></div>
 
             {/* Content container positioned above the overlay */}
-            <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
+            <div className="page-background">
                 <h1 className="text-3xl font-bold text-white">Hourly Employee Dashboard</h1>
 
                 {/* Buttons */}
@@ -54,6 +54,12 @@ export function HourlyEmployeeHome() {
                     </button>
                     <button onClick={fetchReceipts} className="btn-primary">
                         Enter Attendance
+                    </button>
+                    <button onClick={fetchReceipts} className="btn-primary">
+                        Add a Customer
+                    </button>
+                    <button onClick={fetchReceipts} className="btn-primary">
+                        Create Receipt
                     </button>
                 </div>
 
