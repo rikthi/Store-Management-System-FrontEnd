@@ -8,9 +8,6 @@ export function LoginPage() {
             className="flex items-center justify-center h-screen bg-cover bg-center"
             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
-            <h1 className="absolute top-5 left-5 text-white text-2xl font-bold bg-black bg-opacity-50 px-4 py-2 rounded-lg">
-                Store Management System
-            </h1>
             <div className="bg-white p-8 rounded-lg shadow-lg w-96 text-center bg-opacity-90">
                 <h2 className="text-2xl font-bold mb-6">Login</h2>
                 <form className="flex flex-col gap-4">
