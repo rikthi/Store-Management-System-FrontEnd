@@ -1,36 +1,38 @@
 import React, { useState } from "react";
+import axios from "axios"; // Import axios
+import { useAuth } from "./AuthContext.jsx";
 
 export function CustomerHome() {
+    const { user } = useAuth(); // Get user info from context
     const [receipts, setReceipts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    // Simulated customer ID (In real implementation, get this from auth)
-    const customerId = 123;
-
-    // Fetch receipts from API
+    // Fetch receipts from API using axios
     const fetchReceipts = async () => {
         setLoading(true);
         setError("");
 
         try {
-            const response = await fetch(`http://localhost:5000/api/receipts/${customerId}`);
-            if (!response.ok) throw new Error("Failed to fetch receipts");
+            // Use axios to make the GET request with the username
+            const response = await axios.get(`http://localhost:8080/api/receipts`, {
+                params: {
+                    username: user.username // Pass the username as a query parameter
+                }
+            });
 
-            const data = await response.json();
-            setReceipts(data);
+            setReceipts(response.data); // Set the receipts data from the response
         } catch (err) {
-            setError(err.message);
+            setError(err.message("Not Connected to Database")); // Set error message if the request fails
         } finally {
-            setLoading(false);
+            setLoading(false); // Stop the loading spinner
         }
     };
 
-    // Fetching Personal Details from API
+    // Fetching Personal Details from API (function for future use)
     const fetchPersonalDetails = async () => {
-
+        // Implementation for fetching personal details (if needed)
     };
-
 
     return (
         <div

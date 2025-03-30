@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import {useAuth} from "./AuthContext.jsx";
 
 export function LoginPage() {
+    const { setUser } = useAuth(); // Get setUser function from context
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
@@ -18,7 +20,7 @@ export function LoginPage() {
             });
 
             const { role } = response.data; // Get user role from response
-
+            setUser({ username, password, role });
             // Navigate based on role
             if (role === "MANAGER") navigate("/manager");
             else if (role === "SUPERVISOR") navigate("/supervisor");

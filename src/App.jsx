@@ -9,9 +9,11 @@ import {HourlyEmployeeHome} from "./pages/HourlyEmployeeHome.jsx";
 import {SalariedEmployeeHome} from "./pages/SalariedEmployeeHome.jsx";
 import {CustomerHome} from "./pages/CustomerHome";
 import "./index.css";
+import {AuthProvider} from "./pages/AuthContext.jsx";
 
 function App() {
     return (
+        <AuthProvider>
         <div>
             <WebsiteTitle />
         <Router>
@@ -28,6 +30,7 @@ function App() {
             </div>
         </Router>
         </div>
+        </AuthProvider>
     );
 }
 export default App;
