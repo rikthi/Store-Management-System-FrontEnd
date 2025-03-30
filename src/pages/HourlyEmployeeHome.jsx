@@ -37,11 +37,9 @@ export function HourlyEmployeeHome() {
             className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
-            {/* Overlay with 50% opacity */}
-            <div className="absolute inset-0 bg-black opacity-60"></div>
 
             {/* Content container positioned above the overlay */}
-            <div className="page-background">
+            <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
                 <h1 className="text-3xl font-bold text-white">Hourly Employee Dashboard</h1>
 
                 {/* Buttons */}
