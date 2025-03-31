@@ -29,7 +29,7 @@ export function HourlyEmployeeHome() {
     };
 
     //  Fetch Pay Scale from API
-    const fetchPayScale = async () => {
+    const fetchSalary = async () => {
         setLoading(true);
         setError("");
 
@@ -62,8 +62,8 @@ export function HourlyEmployeeHome() {
                     <button onClick={fetchPersonalDetails} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
                         View Personal Information
                     </button>
-                    <button onClick={fetchPayScale} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
-                        View Pay Scale
+                    <button onClick={fetchSalary} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+                        View Salary
                     </button>
                     <button onClick={() => navigate("/Employee/AddAttendance")} className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition">
                         Enter Attendance
