@@ -9,7 +9,7 @@ export function RegistrationPage() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleLogin = async (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
         setError("");
 
@@ -38,7 +38,7 @@ export function RegistrationPage() {
         >
             <div className="bg-white p-8 rounded-lg shadow-lg w-96">
                 <h2 className="text-3xl font-semibold text-center text-gray-800 mb-6">Sign Up</h2>
-                <form onSubmit={handleLogin} className="flex flex-col gap-4">
+                <form onSubmit={handleSignIn} className="flex flex-col gap-4">
                     <input
                         type="text"
                         placeholder="Username"
