@@ -96,7 +96,7 @@ export function AddAttendance() {
                     {/* Submit Button */}
                     <button
                         type="submit"
-                        className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+                        className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition"
                         disabled={loading}
                     >
                         {loading ? "Submitting..." : "Submit Attendance"}

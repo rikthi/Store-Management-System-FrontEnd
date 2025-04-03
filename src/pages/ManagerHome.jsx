@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ManagerHome() {
+    const navigate = useNavigate();
     const [receipts, setReceipts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -41,8 +43,8 @@ export function ManagerHome() {
             <div className="absolute inset-0 bg-black opacity-60"></div>
 
             {/* Content container positioned above the overlay */}
-            <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
-                <h1 className="text-3xl font-bold text-white">Manager Dashboard</h1>
+            <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-75 p-8 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold text-gray-800">Manager Dashboard</h1>
 
                 {/* Buttons */}
                 <div className="space-y-4 w-80">
@@ -52,7 +54,7 @@ export function ManagerHome() {
                     <button onClick={fetchReceipts} className="btn-primary">
                         Manage Inventory
                     </button>
-                    <button onClick={fetchReceipts} className="btn-primary">
+                    <button onClick={() => navigate("/Manager/AddEmployee")} className="btn-primary">
                         Add Employee
                     </button>
                     <button onClick={fetchReceipts} className="btn-primary">
