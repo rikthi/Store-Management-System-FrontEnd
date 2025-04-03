@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "./AuthContext.js"; // Import AuthContext
+import { useAuth } from "./AuthContext.jsx"; // Import AuthContext
 
-export function HourlyEmployeeHome() {
+export function SalariedEmployeeHome() {
     const navigate = useNavigate();
     const { user } = useAuth(); // Get the logged-in user's details
     const [personalDetails, setPersonalDetails] = useState(null);

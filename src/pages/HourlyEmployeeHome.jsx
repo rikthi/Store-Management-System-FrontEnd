@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useAuth } from "./AuthContext.js"; // Import AuthContext
+import { useAuth } from "./AuthContext.jsx"; // Import AuthContext
 
 export function HourlyEmployeeHome() {
     const navigate = useNavigate();

@@ -8,6 +8,8 @@ import {ManagerHome} from "./pages/Manager/ManagerHome.jsx";
 import {HourlyEmployeeHome} from "./pages/HourlyEmployeeHome.jsx";
 import {SalariedEmployeeHome} from "./pages/SalariedEmployeeHome.jsx";
 import {CustomerHome} from "./pages/CustomerHome";
+import {AddCustomer} from "./pages/Employee/AddCustomer";
+import {CreateReceipt} from "./pages/Employee/CreateReceipt.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
 
@@ -26,6 +28,8 @@ function App() {
                     <Route path="/Hemployee" element={<HourlyEmployeeHome />} />
                     <Route path="/Semployee" element={<SalariedEmployeeHome />} />
                     <Route path="/customer" element={<CustomerHome />} />
+                    <Route path="/Employee/AddCustomer" element={<AddCustomer />} />
+                    <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
                 </Routes>
             </div>
         </Router>

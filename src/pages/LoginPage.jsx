@@ -5,7 +5,7 @@ import {useAuth} from "./AuthContext.jsx";
 
 export function LoginPage() {
     const { setUser } = useAuth(); // Get setUser function from context
-    const [username, setUsername] = useState("");
+    const [userID, setUserID] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -16,11 +16,11 @@ export function LoginPage() {
 
         try {
             const response = await axios.post("http://localhost:8080/api/auth/login", {
-                username, password
+                userID, password
             });
 
             const { role } = response.data; // Get user role from response
-            setUser({ username, password, role });
+            setUser({ userID, password, role });
             // Navigate based on role
             if (role === "MANAGER") navigate("/manager");
             else if (role === "SUPERVISOR") navigate("/supervisor");
@@ -43,10 +43,10 @@ export function LoginPage() {
                 <form onSubmit={handleLogin} className="flex flex-col gap-4">
                     <input
                         type="text"
-                        placeholder="Username"
+                        placeholder="UserID"
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={userID}
+                        onChange={(e) => setUserID(e.target.value)}
                     />
                     <input
                         type="password"
