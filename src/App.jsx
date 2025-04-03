@@ -10,6 +10,7 @@ import {SalariedEmployeeHome} from "./pages/SalariedEmployeeHome.jsx";
 import {CustomerHome} from "./pages/CustomerHome";
 import {AddCustomer} from "./pages/Employee/AddCustomer";
 import {CreateReceipt} from "./pages/Employee/CreateReceipt.jsx";
+import {AddAttendance} from "./pages/Employee/AddAttendance.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
 
@@ -30,6 +31,7 @@ function App() {
                     <Route path="/customer" element={<CustomerHome />} />
                     <Route path="/Employee/AddCustomer" element={<AddCustomer />} />
                     <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
+                    <Route path="/Employee/AddAttendance" element={<AddAttendance />} />
                 </Routes>
             </div>
         </Router>
