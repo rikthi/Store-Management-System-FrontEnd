@@ -5,7 +5,7 @@ export function AddEmployee() {
     const [employeeData, setEmployeeData] = useState({
         id: "",
         name:"",
-        gender:"",
+        gender:"Male",
         phoneNumber:"",
         dateOfBirth: "",
         emailAddress:"",
@@ -31,8 +31,10 @@ export function AddEmployee() {
         setSuccess("");
 
         try {
-            await axios.post("http://localhost:8081/employees/create", employeeData);
-
+            const payload = {};
+            for (const key in employeeData) {
+                payload[key] = employeeData[key]?.toString() || "";
+            }
             setSuccess("Employee added successfully!");
             setEmployeeData({
                 id: "",
@@ -44,6 +46,10 @@ export function AddEmployee() {
                 address: "",
                 supervisor: ""
             });
+            console.log(employeeData);
+            await axios.post("http://localhost:8081/employees/create", employeeData);
+
+
         } catch (err) {
             setError("Error adding employee. Please try again.");
         } finally {
@@ -104,8 +110,8 @@ export function AddEmployee() {
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
 
