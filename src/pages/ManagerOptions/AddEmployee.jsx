@@ -1,18 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "../AuthContext.jsx"; 
 
 export function AddEmployee() {
-    const { user } = useAuth(); // Get the logged-in user details (manager)
     const [employeeData, setEmployeeData] = useState({
-        name: "",
-        employeeId: "",
-        dob: "",
-        gender: "male", // Default value
-        phoneNumber: "",
-        email: "",
-        address: "",
-        managerId: user.username // ManagerOptions's ID is the logged-in user's ID
+        id: "",
+        name:"",
+        gender:"",
+        phoneNumber:"",
+        dateOfBirth: "",
+        emailAddress:"",
+        address:"",
+        supervisor: ""
     });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
@@ -33,23 +31,19 @@ export function AddEmployee() {
         setSuccess("");
 
         try {
-            // Sending data to backend including managerId
-            const response = await axios.post("http://localhost:8081/employees/create", employeeData);
-            if (response.status === 201) {
-                setSuccess("Employee added successfully!");
-                setEmployeeData({
-                    name: "",
-                    employeeId: "",
-                    dob: "",
-                    gender: "male",
-                    phoneNumber: "",
-                    email: "",
-                    address: "",
-                    managerId: user.username, // Reset managerId to the logged-in user
-                });
-            } else {
-                setError("Failed to add employee.");
-            }
+            await axios.post("http://localhost:8081/employees/create", employeeData);
+
+            setSuccess("Employee added successfully!");
+            setEmployeeData({
+                id: "",
+                name: "",
+                gender: "",
+                phoneNumber: "",
+                dateOfBirth: "",
+                emailAddress: "",
+                address: "",
+                supervisor: ""
+            });
         } catch (err) {
             setError("Error adding employee. Please try again.");
         } finally {
@@ -57,13 +51,13 @@ export function AddEmployee() {
         }
     };
 
+
     return (
         <div
             className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url(../src/assets/loginBg.jpg')" }}
+            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}
         >
-            {/* Overlay for better readability */}
-            <div className="absolute inset-0 bg-black opacity-50"></div>
+
 
             {/* Content container positioned above the overlay */}
             <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
@@ -85,28 +79,14 @@ export function AddEmployee() {
                         />
                     </div>
 
-                    {/* Employee ID */}
-                    <div>
-                        <label htmlFor="employeeId" className="block text-sm font-semibold text-gray-700">Employee ID</label>
-                        <input
-                            type="text"
-                            id="employeeId"
-                            name="employeeId"
-                            value={employeeData.employeeId}
-                            onChange={handleChange}
-                            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-
                     {/* Date of Birth */}
                     <div>
-                        <label htmlFor="dob" className="block text-sm font-semibold text-gray-700">Date of Birth</label>
+                        <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-gray-700">Date of Birth</label>
                         <input
                             type="date"
-                            id="dob"
-                            name="dob"
-                            value={employeeData.dob}
+                            id="dateOfBirth"
+                            name="dateOfBirth"
+                            value={employeeData.dateOfBirth}
                             onChange={handleChange}
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
@@ -145,12 +125,12 @@ export function AddEmployee() {
 
                     {/* Email Address */}
                     <div>
-                        <label htmlFor="email" className="block text-sm font-semibold text-gray-700">Email Address</label>
+                        <label htmlFor="emailAddress" className="block text-sm font-semibold text-gray-700">Email Address</label>
                         <input
                             type="email"
-                            id="email"
-                            name="email"
-                            value={employeeData.email}
+                            id="emailAddress"
+                            name="emailAddress"
+                            value={employeeData.emailAddress}
                             onChange={handleChange}
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
@@ -168,6 +148,20 @@ export function AddEmployee() {
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
                         ></textarea>
+                    </div>
+                    {/* Supervisor ID */}
+                    <div>
+                        <label htmlFor="supervisor" className="block text-sm font-semibold text-gray-700">Supervisor Id</label>
+                        <input
+                            type="number"
+                            id="supervisor"
+                            name="supervisor"
+                            value={employeeData.supervisor}
+                            onChange={handleChange}
+                            min="1"
+                            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
                     </div>
 
                     {/* Submit Button */}
