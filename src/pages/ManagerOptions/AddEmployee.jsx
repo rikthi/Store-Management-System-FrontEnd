@@ -60,7 +60,7 @@ export function AddEmployee() {
     return (
         <div
             className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url(../../src/assets/loginBg.jpg')" }}
+            style={{ backgroundImage: "url(../src/assets/loginBg.jpg')" }}
         >
             {/* Overlay for better readability */}
             <div className="absolute inset-0 bg-black opacity-50"></div>
