@@ -41,8 +41,8 @@ export function SupervisorHome() {
             <div className="absolute inset-0 bg-black opacity-60"></div>
 
             {/* Content container positioned above the overlay */}
-            <div className="relative z-10 flex flex-col items-center justify-center space-y-6">
-                <h1 className="text-3xl font-bold text-white">Supervisor Dashboard</h1>
+            <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
+                <h1 className="text-3xl font-bold text-gray-800">Supervisor Dashboard</h1>
 
                 {/* Buttons */}
                 <div className="space-y-4 w-80">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "../AuthContext.jsx"; // Adjusted import path
+import { useAuth } from "../AuthContext.jsx";
 
 export function AddAttendance() {
     const { user } = useAuth(); // Get the logged-in employee details

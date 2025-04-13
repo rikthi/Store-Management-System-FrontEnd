@@ -24,11 +24,18 @@ export function CreateReceipt() {
         setError("");
         setSuccess("");
 
+        // Validation: Total price must not be negative
+        if (parseFloat(receipt.totalPrice) < 0) {
+            setError("Total price cannot be negative.");
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await axios.post("http://localhost:8080/api/receipts", receipt);
             if (response.status === 201) {
                 setSuccess("Receipt added successfully!");
-                setReceipt({ customerId: "", receiptId: "", totalPrice: "", date: "", cardNumber: "" }); // Reset form
+                setReceipt({ customerId: "", receiptId: "", totalPrice: "", date: "", cardNumber: "" });
             } else {
                 setError("Failed to add receipt.");
             }
@@ -42,7 +49,7 @@ export function CreateReceipt() {
     return (
         <div
             className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}
+            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }} // Correct image path
         >
             {/* Overlay for better readability */}
             <div className="absolute inset-0 bg-black opacity-50"></div>
@@ -82,6 +89,7 @@ export function CreateReceipt() {
                         value={receipt.totalPrice}
                         onChange={handleChange}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        min="0" // <-- Prevent negative input in UI
                         required
                     />
 

@@ -11,7 +11,8 @@ import {CustomerHome} from "./pages/CustomerHome";
 import {AddCustomer} from "./pages/Employee/AddCustomer";
 import {CreateReceipt} from "./pages/Employee/CreateReceipt.jsx";
 import {AddAttendance} from "./pages/Employee/AddAttendance.jsx";
-import {AddEmployee} from "./pages/Manager/AddEmployee.jsx";
+import {AddEmployee} from "./pages/ManagerOptions/AddEmployee.jsx";
+import {ViewEmployees} from "./pages/ManagerOptions/ViewEmployees.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
 
@@ -33,7 +34,8 @@ function App() {
                     <Route path="/Employee/AddCustomer" element={<AddCustomer />} />
                     <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
                     <Route path="/Employee/AddAttendance" element={<AddAttendance />} />
-                    <Route path="/Manager/AddEmployee" element={<AddEmployee />} />
+                    <Route path="/ManagerOptions/AddEmployee" element={<AddEmployee />} />
+                    <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees />} />
                 </Routes>
             </div>
         </Router>

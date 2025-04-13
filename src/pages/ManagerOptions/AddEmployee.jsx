@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuth } from "../AuthContext.jsx"; // Adjust the path based on your directory structure
+import { useAuth } from "../AuthContext.jsx"; 
 
 export function AddEmployee() {
     const { user } = useAuth(); // Get the logged-in user details (manager)
@@ -12,7 +12,7 @@ export function AddEmployee() {
         phoneNumber: "",
         email: "",
         address: "",
-        managerId: user.username // Manager's ID is the logged-in user's ID
+        managerId: user.username // ManagerOptions's ID is the logged-in user's ID
     });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
