@@ -34,7 +34,7 @@ export function AddEmployee() {
 
         try {
             // Sending data to backend including managerId
-            const response = await axios.post("http://localhost:8080/api/employees", employeeData);
+            const response = await axios.post("http://localhost:8081/employees/create", employeeData);
             if (response.status === 201) {
                 setSuccess("Employee added successfully!");
                 setEmployeeData({
