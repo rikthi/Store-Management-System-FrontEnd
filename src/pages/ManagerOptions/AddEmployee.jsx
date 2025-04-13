@@ -23,6 +23,15 @@ export function AddEmployee() {
             [name]: value,
         }));
     };
+// Clear success or error message after 3 seconds
+    React.useEffect(() => {
+        const timer = setTimeout(() => {
+            setSuccess("");
+            setError("");
+        }, 3000); // 3 seconds
+
+        return () => clearTimeout(timer); // cleanup
+    }, [success, error]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
