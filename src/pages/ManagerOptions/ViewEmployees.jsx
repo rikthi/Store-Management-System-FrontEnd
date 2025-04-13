@@ -11,18 +11,23 @@ export function ViewEmployees() {
 
     // Fetch all employees on mount
     useEffect(() => {
-        fetchEmployees();
+        fetchEmployees().then((response) => {
+            setEmployees(response.data);
+            console.log(response.data);
+        }).catch((error) => {
+            console.log(error);
+        })
     }, []);
 
-    const fetchEmployees = async () => {
-        try {
-            const response = await axios.get("http://localhost:8080/api/employees");
-            setEmployees(response.data);
-            setFilteredEmployees(response.data);
-        } catch (error) {
-            console.error("Failed to fetch employees", error);
-        }
-    };
+    const fetchEmployees = () => axios.get("http://localhost:8081/employees");
+    //     try {
+    //         const response =  axios.get("http://localhost:8080/api/employees");
+    //         setEmployees(response.data);
+    //         setFilteredEmployees(response.data);
+    //     } catch (error) {
+    //         console.error("Failed to fetch employees", error);
+    //     }
+    // };
 
     // Search and filter logic
     useEffect(() => {
@@ -88,13 +93,13 @@ export function ViewEmployees() {
                 <tbody>
                 {filteredEmployees.map((emp) => (
                     <tr key={emp.employeeId} className="border-b">
-                        <td className="py-2 px-4">{emp.employeeId}</td>
+                        <td className="py-2 px-4">{emp.id}</td>
                         <td className="py-2 px-4">{emp.name}</td>
                         <td className="py-2 px-4 capitalize">{emp.type}</td>
                         <td className="py-2 px-4">{emp.email}</td>
                         <td className="py-2 px-4">
                             <button
-                                onClick={() => handleViewDetails(emp.employeeId)}
+                                onClick={() => handleViewDetails(emp.id)}
                                 className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                             >
                                 View
