@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext.jsx";
 
 export function CustomerHome() {
+    const navigate = useNavigate();
     const { user } = useAuth();
     const [receipts, setReceipts] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -45,10 +47,17 @@ export function CustomerHome() {
 
                 {/* Buttons */}
                 <div className="space-y-4 w-80">
-                    <button onClick={fetchPersonalDetails} className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+                    <button
+                        onClick={() => navigate("/Customer/ViewCustomerInfo")}
+                        className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition"
+                    >
                         View Personal Information
                     </button>
-                    <button onClick={fetchReceipts} className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+
+                    <button
+                        onClick={() => navigate("/Customer/ViewReceipts")}
+                        className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+                    >
                         View Receipts
                     </button>
                 </div>
