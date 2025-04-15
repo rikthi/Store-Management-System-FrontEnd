@@ -19,8 +19,10 @@ import {ViewCategories} from "./pages/ManagerOptions/ViewCategories.jsx";
 import {StockReport} from "./pages/ManagerOptions/StockReport";
 import {ViewReceipts} from "./pages/Customer/ViewReceipts.jsx";
 import {ViewCustomerInfo} from "./pages/Customer/ViewCustomerInfo.jsx";
+import {EditEmployee} from "./pages/ManagerOptions/EditEmployee.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
+
 
 
 
@@ -46,6 +48,7 @@ function App() {
                     <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo />} />
                     <Route path="/ManagerOptions/AddEmployee" element={<AddEmployee />} />
                     <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees />} />
+                    <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee />} />
                     <Route path="/ManagerOptions/OrderItem" element={<OrderItem />} />
                     <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories />} />
                     <Route path="/ManagerOptions/StockReport" element={<StockReport />} />

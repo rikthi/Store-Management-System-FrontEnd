@@ -35,7 +35,7 @@ export function ViewEmployees() {
     }, [searchTerm, employees]);
 
     const handleViewDetails = (employeeId) => {
-        navigate(`/employee/${employeeId}`);
+        navigate(`/ManagerOptions/EditEmployee/${employeeId}`);
     };
 
     return (
