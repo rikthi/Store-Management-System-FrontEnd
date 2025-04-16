@@ -7,7 +7,7 @@ export function SalariedEmployeeHome() {
     const navigate = useNavigate();
     const { user } = useAuth(); // AuthContext provides employeeId
     const [personalDetails, setPersonalDetails] = useState(null);
-    const [payScale, setPayScale] = useState(null);
+    const [salary, setSalary] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const timestamp = new Date().toLocaleString("en-CA", {
@@ -42,7 +42,7 @@ export function SalariedEmployeeHome() {
             const response = await axios.get(`http://localhost:8080/api/employees/pay-scale`, {
                 params: { username: user.username }
             });
-            setPayScale(response.data);
+            setSalary(response.data);
         } catch (err) {
             setError("Failed to fetch salary");
         } finally {
@@ -123,11 +123,10 @@ export function SalariedEmployeeHome() {
                     </div>
                 )}
 
-                {payScale && (
+                {salary && (
                     <div className="mt-6 w-full max-w-md bg-white p-4 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold mb-4">Salary</h2>
-                        <p><strong>Annual Salary:</strong> ${payScale.annualSalary}</p>
-                        <p><strong>Bonuses:</strong> ${payScale.bonuses}</p>
+                        <p><strong>Monthly Salary:</strong> ${salary.salary}</p>
                     </div>
                 )}
             </div>

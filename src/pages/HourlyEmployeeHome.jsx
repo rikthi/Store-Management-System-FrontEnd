@@ -126,8 +126,7 @@ export function HourlyEmployeeHome() {
                 {payScale && (
                     <div className="mt-6 w-full max-w-md bg-white p-4 rounded-lg shadow-md">
                         <h2 className="text-xl font-semibold mb-4">Salary</h2>
-                        <p><strong>Annual Salary:</strong> ${payScale.annualSalary}</p>
-                        <p><strong>Bonuses:</strong> ${payScale.bonuses}</p>
+                        <p><strong>Hourly Rate:</strong> ${payScale.hourlyScale}</p>
                     </div>
                 )}
             </div>
