@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../AuthContext.jsx"; // adjust if the path is different
 
 export function CreateReceipt() {
+    const { user } = useAuth(); // Get employee info (assuming employeeId is stored in user.username)
+
     const [receipt, setReceipt] = useState({
         customerId: "",
         receiptId: "",
@@ -24,7 +27,6 @@ export function CreateReceipt() {
         setError("");
         setSuccess("");
 
-        // Validation: Total price must not be negative
         if (parseFloat(receipt.totalPrice) < 0) {
             setError("Total price cannot be negative.");
             setLoading(false);
@@ -32,10 +34,22 @@ export function CreateReceipt() {
         }
 
         try {
-            const response = await axios.post("http://localhost:8080/api/receipts", receipt);
+            const payload = {
+                ...receipt,
+                employeeId: user.username, // Send employee ID from AuthContext
+            };
+
+            const response = await axios.post("http://localhost:8080/api/receipts", payload);
+
             if (response.status === 201) {
                 setSuccess("Receipt added successfully!");
-                setReceipt({ customerId: "", receiptId: "", totalPrice: "", date: "", cardNumber: "" });
+                setReceipt({
+                    customerId: "",
+                    receiptId: "",
+                    totalPrice: "",
+                    date: "",
+                    cardNumber: "",
+                });
             } else {
                 setError("Failed to add receipt.");
             }
@@ -49,17 +63,14 @@ export function CreateReceipt() {
     return (
         <div
             className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }} // Correct image path
+            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}
         >
-            {/* Overlay for better readability */}
             <div className="absolute inset-0 bg-black opacity-50"></div>
 
-            {/* Content container */}
             <div className="relative z-10 flex flex-col items-center bg-white bg-opacity-80 p-8 rounded-lg shadow-lg w-96">
                 <h1 className="text-2xl font-bold text-gray-800 mb-4">Create Receipt</h1>
 
                 <form onSubmit={handleSubmit} className="w-full space-y-4">
-                    {/* Customer ID */}
                     <input
                         type="text"
                         name="customerId"
@@ -70,7 +81,6 @@ export function CreateReceipt() {
                         required
                     />
 
-                    {/* Receipt ID */}
                     <input
                         type="text"
                         name="receiptId"
@@ -81,7 +91,6 @@ export function CreateReceipt() {
                         required
                     />
 
-                    {/* Total Price */}
                     <input
                         type="number"
                         name="totalPrice"
@@ -89,11 +98,10 @@ export function CreateReceipt() {
                         value={receipt.totalPrice}
                         onChange={handleChange}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        min="0" // <-- Prevent negative input in UI
+                        min="0"
                         required
                     />
 
-                    {/* Date of Transaction */}
                     <input
                         type="date"
                         name="date"
@@ -103,7 +111,6 @@ export function CreateReceipt() {
                         required
                     />
 
-                    {/* Card Number */}
                     <input
                         type="text"
                         name="cardNumber"
@@ -114,7 +121,6 @@ export function CreateReceipt() {
                         required
                     />
 
-                    {/* Submit Button */}
                     <button
                         type="submit"
                         className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition"
@@ -124,7 +130,6 @@ export function CreateReceipt() {
                     </button>
                 </form>
 
-                {/* Success & Error Messages */}
                 {success && <p className="text-green-500 mt-4">{success}</p>}
                 {error && <p className="text-red-500 mt-4">{error}</p>}
             </div>

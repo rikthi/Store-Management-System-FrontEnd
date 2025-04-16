@@ -11,6 +11,7 @@ export function AddEmployee() {
         emailAddress:"",
         address:"",
         supervisor: ""
+
     });
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
