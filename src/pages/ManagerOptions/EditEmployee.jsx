@@ -20,12 +20,11 @@ export function EditEmployee() {
                 });
                 setEmployee(response.data);
             } catch (err) {
-                setError("Failed to fetch employee details.");
+                setError(err.message("Failed to fetch employee details."));
             } finally {
                 setLoading(false);
             }
         };
-
         fetchEmployee();
     }, [employeeId]);
 
@@ -43,7 +42,7 @@ export function EditEmployee() {
             await axios.put(`http://localhost:8081/${user.storeId}/employees/update/${employeeId}`, employee);
             setSuccess("Employee updated successfully!");
         } catch (err) {
-            setError("Failed to update employee.");
+            setError(err.message("Failed to update employee."));
         } finally {
             setLoading(false);
         }

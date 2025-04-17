@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export function RegistrationPage() {
-    const [username, setUsername] = useState("");
+    const [employeeId, setEmployeeId] = useState("");
+    const [userId] = useState("");
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
@@ -14,23 +15,30 @@ export function RegistrationPage() {
         setError("");
 
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/login", {
-                username,
+            const response = await axios.post("http://localhost:8081/user/create", {
+                employeeId,
+                userId,
                 password,
                 email
             });
 
             const { registrationSuccessful } = response.data;
 
-            if (registrationSuccessful) {
+            if (registrationSuccessful != null) {
                 navigate("/");
             } else {
                 setError("Login failed. Please check your credentials.");
             }
         } catch (err) {
-            setError(err.message("Invalid username or password"));
+            if (err.response && err.response.data && typeof err.response.data === "string") {
+                // This handles the error message sent from the backend
+                setError(err.response.data);
+            } else {
+                setError("An unexpected error occurred.");
+            }
         }
     };
+
 
     return (
         <div
@@ -43,18 +51,21 @@ export function RegistrationPage() {
                     <input
                         type="text"
                         placeholder="UserId"
+                        required={true}
                         className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
-                        onChange={(e) => setUsername(e.target.value)}
+                        onChange={(e) => setEmployeeId(e.target.value)}
                     />
                     <input
                         type="password"
                         placeholder="Password"
+                        required={true}
                         className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <input
                         type="email"
                         placeholder="Email"
+                        required={true}
                         className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                         onChange={(e) => setEmail(e.target.value)}
                     />

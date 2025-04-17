@@ -18,7 +18,7 @@ export function ViewCustomerInfo() {
                 });
                 setInfo(response.data);
             } catch (err) {
-                setError("Failed to fetch customer information.");
+                setError(err.message("Failed to fetch customer information."));
             } finally {
                 setLoading(false);
             }

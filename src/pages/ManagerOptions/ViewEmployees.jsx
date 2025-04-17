@@ -8,6 +8,7 @@ export function ViewEmployees() {
     const [employees, setEmployees] = useState([]);
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [filterType, setFilterType] = useState("ALL");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,17 +22,34 @@ export function ViewEmployees() {
             }
         };
         fetchEmployees();
-    }, []);
+    }, [user]);
 
     useEffect(() => {
-        const filtered = employees.filter((emp) =>
-            emp.id.toString().includes(searchTerm)
-        );
-        setFilteredEmployees(filtered);
-    }, [searchTerm, employees]);
+        let temp = employees;
 
-    const handleViewDetails = (employeeId) => {
-        navigate(`/ManagerOptions/EditEmployee/${employeeId}`);
+        if (searchTerm) {
+            temp = temp.filter((emp) =>
+                emp.id.toString().includes(searchTerm)
+            );
+        }
+
+        if (filterType !== "ALL") {
+            temp = temp.filter((emp) => emp.role === filterType);
+        }
+
+        setFilteredEmployees(temp);
+    }, [searchTerm, employees, filterType]);
+
+    const handleViewDetails = (employeeId, role) => {
+        if (role === "SUPERVISOR") {
+            navigate(`/ManagerOptions/EditEmployee/${employeeId}`);
+        } else if (role === "HOURLY_EMPLOYEE") {
+            navigate(`/ManagerOptions/EditHourlyEmployee/${employeeId}`);
+        } else if (role === "SALARIED_EMPLOYEE") {
+            navigate(`/ManagerOptions/EditSalariedEmployee/${employeeId}`);
+        } else {
+            navigate(`/ManagerOptions/EditEmployee/${employeeId}`);
+        }
     };
 
     return (
@@ -39,6 +57,31 @@ export function ViewEmployees() {
              style={{ backgroundImage: "url('../src/assets/loginBg.jpg')" }}>
             <div className="absolute inset-0 bg-black opacity-50 -z-10" />
             <h1 className="text-3xl font-bold text-white mb-6">View Employees</h1>
+
+            {/* Filters */}
+            <div className="flex gap-4 mb-6">
+                <button
+                    onClick={() => setFilterType("SUPERVISOR")}
+                    className="px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow hover:bg-blue-600 transition-transform transform hover:scale-105"
+                >
+                    Supervisors
+                </button>
+                <button
+                    onClick={() => setFilterType("HOURLY_EMPLOYEE")}
+                    className="px-6 py-2 bg-green-500 text-white font-semibold rounded-lg shadow hover:bg-green-600 transition-transform transform hover:scale-105"
+                >
+                    Hourly
+                </button>
+                <button
+                    onClick={() => setFilterType("SALARIED_EMPLOYEE")}
+                    className="px-6 py-2 bg-yellow-500 text-white font-semibold rounded-lg shadow hover:bg-yellow-600 transition-transform transform hover:scale-105"
+                >
+                    Salaried
+                </button>
+            </div>
+
+
+            {/* Search */}
             <input
                 type="text"
                 placeholder="Search by Employee ID"
@@ -46,13 +89,15 @@ export function ViewEmployees() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="p-2 mb-6 border rounded w-1/2"
             />
+
+            {/* Table */}
             <div className="w-full max-w-6xl overflow-x-auto bg-white bg-opacity-90 p-4 rounded shadow">
                 <table className="w-full table-auto text-sm text-left">
                     <thead className="bg-gray-200">
                     <tr>
                         <th className="px-4 py-2">ID</th>
                         <th className="px-4 py-2">Name</th>
-                        <th className="px-4 py-2">Gender</th>
+                        <th className="px-4 py-2">Role</th>
                         <th className="px-4 py-2">Phone</th>
                         <th className="px-4 py-2">Email</th>
                         <th className="px-4 py-2">DOB</th>
@@ -66,7 +111,7 @@ export function ViewEmployees() {
                         <tr key={emp.id} className="border-t hover:bg-gray-50">
                             <td className="px-4 py-2">{emp.id}</td>
                             <td className="px-4 py-2">{emp.name}</td>
-                            <td className="px-4 py-2">{emp.gender}</td>
+                            <td className="px-4 py-2">{emp.role}</td>
                             <td className="px-4 py-2">{emp.phoneNumber}</td>
                             <td className="px-4 py-2">{emp.emailAddress}</td>
                             <td className="px-4 py-2">{emp.dateOfBirth || "N/A"}</td>
@@ -74,7 +119,7 @@ export function ViewEmployees() {
                             <td className="px-4 py-2">{emp.supervisorId ?? "N/A"}</td>
                             <td className="px-4 py-2">
                                 <button
-                                    onClick={() => handleViewDetails(emp.id)}
+                                    onClick={() => handleViewDetails(emp.id, emp.role)}
                                     className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
                                 >
                                     Edit
@@ -84,7 +129,9 @@ export function ViewEmployees() {
                     ))}
                     {filteredEmployees.length === 0 && (
                         <tr>
-                            <td colSpan="9" className="text-center py-4 text-gray-500">No employees found.</td>
+                            <td colSpan="9" className="text-center py-4 text-gray-500">
+                                No employees found.
+                            </td>
                         </tr>
                     )}
                     </tbody>

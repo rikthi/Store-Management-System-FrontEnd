@@ -12,7 +12,8 @@ import {ViewEmployeeInfo} from "./pages/Employee/ViewEmployeeInfo.jsx";
 import {CustomerHome} from "./pages/CustomerHome";
 import {AddCustomer} from "./pages/Employee/AddCustomer";
 import {CreateReceipt} from "./pages/Employee/CreateReceipt.jsx";
-import {AddEmployee} from "./pages/ManagerOptions/AddEmployee.jsx";
+import {AddHourlyEmployee} from "./pages/ManagerOptions/AddHourlyEmployee.jsx";
+import {AddSalariedEmployee} from "./pages/ManagerOptions/AddSalariedEmployee.jsx";
 import {ViewEmployees} from "./pages/ManagerOptions/ViewEmployees.jsx";
 import {OrderItem} from "./pages/ManagerOptions/OrderItem.jsx";
 import {ViewCategories} from "./pages/ManagerOptions/ViewCategories.jsx";
@@ -22,6 +23,7 @@ import {ViewCustomerInfo} from "./pages/Customer/ViewCustomerInfo.jsx";
 import {EditEmployee} from "./pages/ManagerOptions/EditEmployee.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
+
 
 
 
@@ -46,7 +48,8 @@ function App() {
                     <Route path="/Employee/AddCustomer" element={<AddCustomer />} />
                     <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
                     <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo />} />
-                    <Route path="/ManagerOptions/AddEmployee" element={<AddEmployee />} />
+                    <Route path="/ManagerOptions/AddHourlyEmployee" element={<AddHourlyEmployee />} />
+                    <Route path="/ManagerOptions/AddSalariedEmployee" element={<AddSalariedEmployee />} />
                     <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees />} />
                     <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee />} />
                     <Route path="/ManagerOptions/OrderItem" element={<OrderItem />} />

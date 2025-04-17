@@ -43,10 +43,16 @@ export function ManagerHome() {
                     </button>
 
                     <button
-                        onClick={() => navigate("/ManagerOptions/AddEmployee")}
+                        onClick={() => navigate("/ManagerOptions/AddHourlyEmployee")}
                         className="btn-primary"
                     >
-                        Add Employee
+                        Add Hourly Employee
+                    </button>
+                    <button
+                        onClick={() => navigate("/ManagerOptions/AddSalariedEmployee")}
+                        className="btn-primary"
+                    >
+                        Add Salaried Employee
                     </button>
 
                     <button

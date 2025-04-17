@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useAuth } from "../AuthContext.jsx"; // Ensure path is correct
+import { useAuth } from "../AuthContext.jsx";
 
-export function AddEmployee() {
-    const { user } = useAuth(); // manager with storeId
+export function AddSalariedEmployee() {
+    const { user } = useAuth();
 
     const [employeeData, setEmployeeData] = useState({
         id: "",
@@ -13,22 +13,19 @@ export function AddEmployee() {
         dateOfBirth: "",
         emailAddress: "",
         address: "",
-        supervisor: "",
+        supervisor: ""
     });
 
+    const [salary, setSalary] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setEmployeeData((prevState) => ({
-            ...prevState,
-            [name]: value,
-        }));
+        setEmployeeData((prev) => ({ ...prev, [name]: value }));
     };
 
-    // Clear messages after 3 seconds
     useEffect(() => {
         const timer = setTimeout(() => {
             setSuccess("");
@@ -43,9 +40,21 @@ export function AddEmployee() {
         setError("");
         setSuccess("");
 
+        if (parseFloat(salary) < 0) {
+            setError("Salary cannot be negative.");
+            setLoading(false);
+            return;
+        }
+
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/employees/create`, employeeData);
-            setSuccess("Employee added successfully!");
+            const payload = {
+                ...employeeData,
+                salary: parseFloat(salary)
+            };
+
+            await axios.post(`http://localhost:8081/${user.storeId}/salariedEmployee/create`, payload);
+
+            setSuccess("Salaried employee added successfully!");
             setEmployeeData({
                 id: "",
                 name: "",
@@ -54,10 +63,11 @@ export function AddEmployee() {
                 dateOfBirth: "",
                 emailAddress: "",
                 address: "",
-                supervisor: "",
+                supervisor: ""
             });
+            setSalary("");
         } catch (err) {
-            setError("Error adding employee. Please try again.");
+            setError("Error adding salaried employee.");
         } finally {
             setLoading(false);
         }
@@ -71,7 +81,7 @@ export function AddEmployee() {
             <div className="absolute inset-0 bg-black opacity-50"></div>
 
             <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Add Employee</h1>
+                <h1 className="text-3xl font-bold text-gray-800">Add Salaried Employee</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4 w-80">
                     {[
@@ -124,7 +134,21 @@ export function AddEmployee() {
                         </select>
                     </div>
 
-                    {/* Submit Button */}
+                    {/* Salary input */}
+                    <div>
+                        <label htmlFor="salary" className="block text-sm font-semibold text-gray-700">Monthly Salary</label>
+                        <input
+                            type="number"
+                            id="salary"
+                            name="salary"
+                            value={salary}
+                            onChange={(e) => setSalary(e.target.value)}
+                            min="0"
+                            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+
                     <button
                         type="submit"
                         className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
@@ -134,7 +158,6 @@ export function AddEmployee() {
                     </button>
                 </form>
 
-                {/* Messages */}
                 {error && <p className="mt-4 text-red-500">{error}</p>}
                 {success && <p className="mt-4 text-green-500">{success}</p>}
             </div>

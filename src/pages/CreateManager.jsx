@@ -10,17 +10,21 @@ export function CreateManager() {
         dateOfBirth: "",
         emailAddress: "",
         address: "",
-        storeId: "",
         password: ""
     });
 
+    const [storeId, setStoreId] = useState(""); // separate storeId (not part of managerData)
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setManagerData((prev) => ({ ...prev, [name]: value }));
+        if (name === "storeId") {
+            setStoreId(value);
+        } else {
+            setManagerData((prev) => ({ ...prev, [name]: value }));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -30,10 +34,17 @@ export function CreateManager() {
         setSuccess("");
 
         try {
-            await axios.post("http://localhost:8080/api/managers/create", managerData);
+            await axios.post(
+                `http://localhost:8080/${storeId}/managers/create`,
+                managerData
+            );
             setSuccess("Manager created successfully!");
         } catch (err) {
-            setError("Failed to create manager.");
+            if (err.response?.data) {
+                setError(err.response.data);
+            } else {
+                setError("Failed to create manager.");
+            }
         } finally {
             setLoading(false);
         }
@@ -56,9 +67,7 @@ export function CreateManager() {
                         { label: "Phone Number", name: "phoneNumber", type: "tel" },
                         { label: "Date of Birth", name: "dateOfBirth", type: "date" },
                         { label: "Email Address", name: "emailAddress", type: "email" },
-                        { label: "Address", name: "address", type: "text" },
-                        { label: "Store ID", name: "storeId", type: "text" },
-
+                        { label: "Address", name: "address", type: "text" }
                     ].map(({ label, name, type }) => (
                         <div key={name}>
                             <label className="block text-sm font-semibold text-gray-700">{label}</label>
@@ -73,6 +82,20 @@ export function CreateManager() {
                         </div>
                     ))}
 
+                    {/* Store ID input (separate) */}
+                    <div>
+                        <label className="block text-sm font-semibold text-gray-700">Store ID</label>
+                        <input
+                            type="text"
+                            name="storeId"
+                            value={storeId}
+                            onChange={handleChange}
+                            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            required
+                        />
+                    </div>
+
+                    {/* Gender Dropdown */}
                     <div>
                         <label className="block text-sm font-semibold text-gray-700">Gender</label>
                         <select

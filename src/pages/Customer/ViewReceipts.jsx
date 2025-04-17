@@ -11,11 +11,11 @@ export function ViewReceipts() {
         const fetchReceipts = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/${user.storeId}/receipts/customer`, {
-                    params: { customerId: user.userID },
+                    params: { customerId: user.userId },
                 });
                 setReceipts(response.data);
             } catch (err) {
-                setError("Failed to fetch receipts.");
+                setError(err.message("Failed to fetch receipts."));
             }
         };
 

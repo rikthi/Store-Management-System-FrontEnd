@@ -44,6 +44,7 @@ export function LoginPage() {
                     <input
                         type="text"
                         placeholder="UserID"
+                        required={true}
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
@@ -51,6 +52,7 @@ export function LoginPage() {
                     <input
                         type="password"
                         placeholder="Password"
+                        required={true}
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
