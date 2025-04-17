@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { useAuth } from "../AuthContext.jsx";
 
 export function EditEmployee() {
-    const { employeeId } = useParams(); // get the employee ID from the URL
+    const { user } = useAuth();
+    const { employeeId } = useParams();
     const [employee, setEmployee] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -13,7 +15,9 @@ export function EditEmployee() {
         const fetchEmployee = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://localhost:8081/employees/${employeeId}`);
+                const response = await axios.get(`http://localhost:8081/${user.storeId}/employee/view`, {
+                    params: { employeeId }
+                });
                 setEmployee(response.data);
             } catch (err) {
                 setError("Failed to fetch employee details.");
@@ -33,12 +37,11 @@ export function EditEmployee() {
     const handleUpdate = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setSuccess("");
         setError("");
-
+        setSuccess("");
         try {
-            await axios.put(`http://localhost:8081/employees/${employeeId}`, employee);
-            setSuccess("Employee details updated successfully.");
+            await axios.put(`http://localhost:8081/${user.storeId}/employees/update/${employeeId}`, employee);
+            setSuccess("Employee updated successfully!");
         } catch (err) {
             setError("Failed to update employee.");
         } finally {
@@ -47,7 +50,7 @@ export function EditEmployee() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen p-10 bg-cover bg-center"
+        <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
              style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}>
             <div className="absolute inset-0 bg-black opacity-50 -z-10" />
             <div className="relative z-10 bg-white bg-opacity-90 p-6 rounded-lg shadow-md w-96">
@@ -59,20 +62,15 @@ export function EditEmployee() {
 
                 {employee && (
                     <form onSubmit={handleUpdate} className="space-y-4">
-                        {/* Do NOT edit ID */}
                         <input type="text" value={employee.id} disabled className="w-full p-2 border rounded bg-gray-200" />
-
                         <input type="text" name="name" value={employee.name} onChange={handleChange} className="w-full p-2 border rounded" required />
                         <input type="text" name="gender" value={employee.gender} onChange={handleChange} className="w-full p-2 border rounded" required />
                         <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleChange} className="w-full p-2 border rounded" required />
                         <input type="date" name="dateOfBirth" value={employee.dateOfBirth} onChange={handleChange} className="w-full p-2 border rounded" required />
                         <input type="email" name="emailAddress" value={employee.emailAddress} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <textarea name="address" value={employee.address} onChange={handleChange} className="w-full p-2 border rounded" required></textarea>
+                        <textarea name="address" value={employee.address} onChange={handleChange} className="w-full p-2 border rounded" required />
                         <input type="number" name="supervisorId" value={employee.supervisorId || ""} onChange={handleChange} className="w-full p-2 border rounded" />
-
-                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
-                            Update Employee
-                        </button>
+                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Update</button>
                     </form>
                 )}
             </div>

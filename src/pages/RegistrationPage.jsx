@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -15,22 +15,23 @@ export function RegistrationPage() {
 
         try {
             const response = await axios.post("http://localhost:8080/api/auth/login", {
-                username, password, email
+                username,
+                password,
+                email
             });
 
-            const { registrationSuccessful } = response.data; // Get response status
+            const { registrationSuccessful } = response.data;
 
-            // Navigate to home page if login is successful
             if (registrationSuccessful) {
                 navigate("/");
             } else {
                 setError("Login failed. Please check your credentials.");
             }
-
         } catch (err) {
             setError(err.message("Invalid username or password"));
         }
     };
+
     return (
         <div
             className="flex items-center justify-center h-screen bg-cover bg-center"
@@ -41,7 +42,7 @@ export function RegistrationPage() {
                 <form onSubmit={handleSignIn} className="flex flex-col gap-4">
                     <input
                         type="text"
-                        placeholder="Username"
+                        placeholder="UserId"
                         className="w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-green-500"
                         onChange={(e) => setUsername(e.target.value)}
                     />
@@ -70,6 +71,16 @@ export function RegistrationPage() {
                         className="text-green-600 hover:underline"
                     >
                         Login
+                    </button>
+                </p>
+
+                <p className="mt-2 text-center text-gray-600">
+                    Want to register as a manager?{" "}
+                    <button
+                        onClick={() => navigate("/CreateManager")}
+                        className="text-blue-600 hover:underline"
+                    >
+                        Create a Manager
                     </button>
                 </p>
             </div>

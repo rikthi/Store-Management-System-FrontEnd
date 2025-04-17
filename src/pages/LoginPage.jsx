@@ -5,7 +5,7 @@ import {useAuth} from "./AuthContext.jsx";
 
 export function LoginPage() {
     const { setUser } = useAuth(); // Get setUser function from context
-    const [userID, setUserID] = useState("");
+    const [userId, setUserId] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -16,17 +16,17 @@ export function LoginPage() {
 
         try {
             const response = await axios.post("http://localhost:8080/api/auth/login", {
-                userID, password
+                userId, password
             });
 
-            const { role } = response.data; // Get user role from response
-            setUser({ userID, password, role });
+            const { role, storeId } = response.data;
+            setUser({ userId, role, storeId});
             // Navigate based on role
-            if (role === "MANAGER") navigate("/manager");
-            else if (role === "SUPERVISOR") navigate("/supervisor");
-            else if (role === "HOURLY_EMPLOYEE") navigate("/Hemployee");
-            else if (role === "SALARIED_EMPLOYEE") navigate("/Semployee");
-            else if (role === "CUSTOMER") navigate("/customer");
+            if (role === "MANAGER") navigate("/ManagerHome");
+            else if (role === "SUPERVISOR") navigate("/SupervisorHome");
+            else if (role === "HOURLY_EMPLOYEE") navigate("/HourlyEmployee");
+            else if (role === "SALARIED_EMPLOYEE") navigate("/SalariedEmployee");
+            else if (role === "CUSTOMER") navigate("/CustomerHome");
             else setError("Unknown role");
 
         } catch (err) {
@@ -45,8 +45,8 @@ export function LoginPage() {
                         type="text"
                         placeholder="UserID"
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        value={userID}
-                        onChange={(e) => setUserID(e.target.value)}
+                        value={userId}
+                        onChange={(e) => setUserId(e.target.value)}
                     />
                     <input
                         type="password"

@@ -13,7 +13,7 @@ export function ViewCustomerInfo() {
             setLoading(true);
             setError("");
             try {
-                const response = await axios.get("http://localhost:8081/api/customers/info", {
+                const response = await axios.get(`http://localhost:8081/${user.storeId}/customers/info`, {
                     params: { userId: user.username },
                 });
                 setInfo(response.data);

@@ -1,8 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import {LoginPage} from "./pages/LoginPage";
 import { WebsiteTitle } from './pages/WebsiteTitle.jsx';
+import {LoginPage} from "./pages/LoginPage";
 import {RegistrationPage} from "./pages/RegistrationPage";
+import {CreateManager} from "./pages/CreateManager";
 import {SupervisorHome} from "./pages/SupervisorHome";
 import {ManagerHome} from "./pages/ManagerHome.jsx";
 import {HourlyEmployeeHome} from "./pages/HourlyEmployeeHome.jsx";
@@ -35,12 +36,13 @@ function App() {
             <div className="min-h-screen bg-gray-100 text-gray-900">
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
-                    <Route path="/register" element={<RegistrationPage />} />
-                    <Route path="/supervisor" element={<SupervisorHome />} />
-                    <Route path="/manager" element={<ManagerHome />} />
-                    <Route path="/Hemployee" element={<HourlyEmployeeHome />} />
-                    <Route path="/Semployee" element={<SalariedEmployeeHome />} />
-                    <Route path="/customer" element={<CustomerHome />} />
+                    <Route path="/Register" element={<RegistrationPage />} />
+                    <Route path="/CreateManager" element={<CreateManager />} />
+                    <Route path="/Supervisor" element={<SupervisorHome />} />
+                    <Route path="/ManagerHome" element={<ManagerHome />} />
+                    <Route path="/Hourlyemployee" element={<HourlyEmployeeHome />} />
+                    <Route path="/Salariedemployee" element={<SalariedEmployeeHome />} />
+                    <Route path="/CustomerHome" element={<CustomerHome />} />
                     <Route path="/Employee/AddCustomer" element={<AddCustomer />} />
                     <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
                     <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo />} />

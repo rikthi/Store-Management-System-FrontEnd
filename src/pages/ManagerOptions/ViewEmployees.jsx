@@ -1,37 +1,33 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext.jsx";
 
 export function ViewEmployees() {
+    const { user } = useAuth();
     const [employees, setEmployees] = useState([]);
     const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const navigate = useNavigate();
 
-    const fetchEmployees = async () => {
-        try {
-            const response = await axios.get("http://localhost:8081/employees");
-            setEmployees(response.data);
-            setFilteredEmployees(response.data);
-        } catch (error) {
-            console.error("Failed to fetch employees", error);
-        }
-    };
-
     useEffect(() => {
+        const fetchEmployees = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees`);
+                setEmployees(response.data);
+                setFilteredEmployees(response.data);
+            } catch (error) {
+                console.error("Failed to fetch employees", error);
+            }
+        };
         fetchEmployees();
     }, []);
 
     useEffect(() => {
-        let temp = employees;
-
-        if (searchTerm) {
-            temp = temp.filter((emp) =>
-                emp.id.toString().includes(searchTerm)
-            );
-        }
-
-        setFilteredEmployees(temp);
+        const filtered = employees.filter((emp) =>
+            emp.id.toString().includes(searchTerm)
+        );
+        setFilteredEmployees(filtered);
     }, [searchTerm, employees]);
 
     const handleViewDetails = (employeeId) => {
@@ -39,16 +35,10 @@ export function ViewEmployees() {
     };
 
     return (
-        <div
-            className="relative flex flex-col items-center justify-start min-h-screen bg-cover bg-center p-10"
-            style={{ backgroundImage: "url('../src/assets/loginBg.jpg')" }}
-        >
-            {/* Dark overlay */}
+        <div className="relative flex flex-col items-center justify-start min-h-screen bg-cover bg-center p-10"
+             style={{ backgroundImage: "url('../src/assets/loginBg.jpg')" }}>
             <div className="absolute inset-0 bg-black opacity-50 -z-10" />
-
             <h1 className="text-3xl font-bold text-white mb-6">View Employees</h1>
-
-            {/* Search bar */}
             <input
                 type="text"
                 placeholder="Search by Employee ID"
@@ -56,8 +46,6 @@ export function ViewEmployees() {
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="p-2 mb-6 border rounded w-1/2"
             />
-
-            {/* Employee table */}
             <div className="w-full max-w-6xl overflow-x-auto bg-white bg-opacity-90 p-4 rounded shadow">
                 <table className="w-full table-auto text-sm text-left">
                     <thead className="bg-gray-200">
@@ -67,7 +55,7 @@ export function ViewEmployees() {
                         <th className="px-4 py-2">Gender</th>
                         <th className="px-4 py-2">Phone</th>
                         <th className="px-4 py-2">Email</th>
-                        <th className="px-4 py-2">Date of Birth</th>
+                        <th className="px-4 py-2">DOB</th>
                         <th className="px-4 py-2">Address</th>
                         <th className="px-4 py-2">Supervisor ID</th>
                         <th className="px-4 py-2">Action</th>
@@ -96,9 +84,7 @@ export function ViewEmployees() {
                     ))}
                     {filteredEmployees.length === 0 && (
                         <tr>
-                            <td colSpan="9" className="text-center py-4 text-gray-500">
-                                No employees found.
-                            </td>
+                            <td colSpan="9" className="text-center py-4 text-gray-500">No employees found.</td>
                         </tr>
                     )}
                     </tbody>

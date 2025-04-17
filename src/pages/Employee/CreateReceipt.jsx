@@ -34,12 +34,7 @@ export function CreateReceipt() {
         }
 
         try {
-            const payload = {
-                ...receipt,
-                employeeId: user.username, // Send employee ID from AuthContext
-            };
-
-            const response = await axios.post("http://localhost:8080/api/receipts", payload);
+            const response = await axios.post(`http://localhost:8080/${user.storeId}/receipts`, receipt);
 
             if (response.status === 201) {
                 setSuccess("Receipt added successfully!");

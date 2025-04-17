@@ -13,8 +13,8 @@ export function ViewEmployeeInfo() {
             setLoading(true);
             setError("");
             try {
-                const response = await axios.get("http://localhost:8081/api/employees/info", {
-                    params: { userId: user.username }, // assuming backend uses employee username to find data
+                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/info`, {
+                    params: { userId: user.userId },
                 });
                 setInfo(response.data);
             } catch (err) {

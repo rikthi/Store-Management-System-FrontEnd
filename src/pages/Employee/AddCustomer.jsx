@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../AuthContext.jsx"; // Make sure the path is correct
 
 export function AddCustomer() {
+    const { user } = useAuth(); // Access the logged-in employee with storeId
+
     const [customer, setCustomer] = useState({
         name: "",
         email: "",
@@ -26,14 +29,14 @@ export function AddCustomer() {
         setSuccess("");
 
         try {
-            const response = await axios.post("http://localhost:8080/api/customers", customer);
-            if (response.status === 201) {
-                setSuccess("Customer added successfully!");
-                setCustomer({ name: "", email: "", customerId: "", membershipType: "bronze" }); // Reset form
-            } else {
-                setError("Failed to add customer.");
-            }
-            // eslint-disable-next-line no-unused-vars
+            await axios.post(`http://localhost:8080/${user.storeId}/customers`, customer);
+            setSuccess("Customer added successfully!");
+            setCustomer({
+                name: "",
+                email: "",
+                customerId: "",
+                membershipType: "",
+            });
         } catch (err) {
             setError("Error adding customer. Please try again.");
         } finally {

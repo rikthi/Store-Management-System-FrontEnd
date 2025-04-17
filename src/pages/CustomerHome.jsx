@@ -1,37 +1,9 @@
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useAuth } from "./AuthContext.jsx";
+
 
 export function CustomerHome() {
     const navigate = useNavigate();
-    const { user } = useAuth();
-    const [receipts, setReceipts] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
 
-    // Fetch receipts from API using axios
-    const fetchReceipts = async () => {
-        setLoading(true);
-        setError("");
-
-        try {
-            const response = await axios.get("http://localhost:8080/api/receipts", {
-                params: { username: user.username }
-            });
-
-            setReceipts(response.data);
-        } catch (err) {
-            setError("");
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    // Fetch personal details (future implementation)
-    const fetchPersonalDetails = async () => {
-        // Placeholder for fetching personal details
-    };
 
     return (
         <div
@@ -61,24 +33,6 @@ export function CustomerHome() {
                         View Receipts
                     </button>
                 </div>
-
-                {/* Loading & Error Handling */}
-                {loading && <p className="text-blue-500 mt-4">Loading...</p>}
-                {error && <p className="text-red-500 mt-4">{error}</p>}
-
-                {/* Display Receipts */}
-                {receipts.length > 0 && (
-                    <div className="mt-6 w-full max-w-md bg-white p-4 rounded-lg shadow-md">
-                        <h2 className="text-xl font-semibold mb-4">Your Receipts</h2>
-                        <ul className="space-y-2">
-                            {receipts.map((receipt) => (
-                                <li key={receipt.id} className="border p-2 rounded bg-gray-50">
-                                    Receipt #{receipt.id} - Total: ${receipt.total}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
             </div>
         </div>
     );

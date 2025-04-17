@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext.jsx";
 export function HourlyEmployeeHome() {
     const navigate = useNavigate();
     const { user } = useAuth(); // AuthContext provides employeeId
-    const [personalDetails, setPersonalDetails] = useState(null);
+    const [personalDetails] = useState(null);
     const [payScale, setPayScale] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -20,31 +20,17 @@ export function HourlyEmployeeHome() {
         second: "2-digit",
         hour12: true,
     });
-    const fetchPersonalDetails = async () => {
-        setLoading(true);
-        setError("");
-        try {
-            const response = await axios.get(`http://localhost:8080/api/employees/details`, {
-                params: { username: user.username }
-            });
-            setPersonalDetails(response.data);
-        } catch (err) {
-            setError("Failed to fetch personal details");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const fetchSalary = async () => {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.get(`http://localhost:8080/api/employees/pay-scale`, {
-                params: { username: user.username }
+            const response = await axios.get(`http://localhost:8080/${user.storeId}/employees/pay-scale`, {
+                params: { userId: user.userId }
             });
             setPayScale(response.data);
         } catch (err) {
-            setError("Failed to fetch salary");
+            setError(err.message("Failed to fetch salary"));
         } finally {
             setLoading(false);
         }
@@ -56,13 +42,13 @@ export function HourlyEmployeeHome() {
         if (!confirmed) return;
 
         try {
-            await axios.post("http://localhost:8080/api/employees/punch-in", {
-                employeeId: user.username,
+            await axios.post(`http://localhost:8080/${user.storeId}/employees/punch-in`, {
+                employeeId: user.userId,
                 punchInTime: timestamp
             });
             alert("Punch In recorded.");
         } catch (err) {
-            alert("Failed to record Punch In.");
+            alert(err.message("Failed to record Punch In."));
         }
     };
 
@@ -71,13 +57,13 @@ export function HourlyEmployeeHome() {
         if (!confirmed) return;
 
         try {
-            await axios.post("http://localhost:8080/api/employees/punch-out", {
-                employeeId: user.username,
+            await axios.post(`http://localhost:8080/${user.storeId}/employees/punch-out`, {
+                employeeId: user.userId,
                 punchOutTime: timestamp
             });
             alert("Punch Out recorded.");
         } catch (err) {
-            alert("Failed to record Punch Out.");
+            alert(err.message("Failed to record Punch Out."));
         }
     };
 
@@ -91,7 +77,7 @@ export function HourlyEmployeeHome() {
                 <h1 className="text-3xl font-bold text-gray-800">Hourly Employee Dashboard</h1>
 
                 <div className="space-y-4 w-80">
-                    <button onClick={fetchPersonalDetails} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+                    <button onClick={() => navigate("/Employee/ViewEmployeeInfo")} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
                         View Personal Information
                     </button>
                     <button onClick={fetchSalary} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">

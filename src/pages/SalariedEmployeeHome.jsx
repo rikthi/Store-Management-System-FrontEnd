@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext.jsx";
 export function SalariedEmployeeHome() {
     const navigate = useNavigate();
     const { user } = useAuth(); // AuthContext provides employeeId
-    const [personalDetails, setPersonalDetails] = useState(null);
+    const [personalDetails] = useState(null);
     const [salary, setSalary] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
@@ -20,20 +20,6 @@ export function SalariedEmployeeHome() {
         second: "2-digit",
         hour12: true,
     });
-    const fetchPersonalDetails = async () => {
-        setLoading(true);
-        setError("");
-        try {
-            const response = await axios.get(`http://localhost:8080/api/employees/details`, {
-                params: { username: user.username }
-            });
-            setPersonalDetails(response.data);
-        } catch (err) {
-            setError("Failed to fetch personal details");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const fetchSalary = async () => {
         setLoading(true);
@@ -44,7 +30,7 @@ export function SalariedEmployeeHome() {
             });
             setSalary(response.data);
         } catch (err) {
-            setError("Failed to fetch salary");
+            setError(err.message("Failed to fetch salary"));
         } finally {
             setLoading(false);
         }
@@ -62,7 +48,7 @@ export function SalariedEmployeeHome() {
             });
             alert("Punch In recorded.");
         } catch (err) {
-            alert("Failed to record Punch In.");
+            alert(err.message("Failed to record Punch In."));
         }
     };
 
@@ -77,7 +63,7 @@ export function SalariedEmployeeHome() {
             });
             alert("Punch Out recorded.");
         } catch (err) {
-            alert("Failed to record Punch Out.");
+            alert(err.message("Failed to record Punch Out."));
         }
     };
 
@@ -91,7 +77,7 @@ export function SalariedEmployeeHome() {
                 <h1 className="text-3xl font-bold text-gray-800">Salaried Employee Dashboard</h1>
 
                 <div className="space-y-4 w-80">
-                    <button onClick={fetchPersonalDetails} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+                    <button onClick={() => navigate("/Employee/ViewEmployeeInfo")} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
                         View Personal Information
                     </button>
                     <button onClick={fetchSalary} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
