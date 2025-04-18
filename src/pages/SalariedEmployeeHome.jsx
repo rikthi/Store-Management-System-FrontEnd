@@ -26,7 +26,7 @@ export function SalariedEmployeeHome() {
         setError("");
         try {
             const response = await axios.get(`http://localhost:8080/api/employees/pay-scale`, {
-                params: { username: user.username }
+                params: { userId: user.userId }
             });
             setSalary(response.data);
         } catch (err) {

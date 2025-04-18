@@ -17,7 +17,7 @@ export function ManagerHome() {
                 {/* Buttons */}
                 <div className="space-y-4 w-80">
                     <button
-                        onClick={() => navigate("/Manager/ViewPersonalInfo")}
+                        onClick={() => navigate("/Employee/ViewEmployeeInfo")}
                         className="btn-primary"
                     >
                         View Personal Information

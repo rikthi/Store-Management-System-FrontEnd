@@ -9,23 +9,28 @@ export function ViewEmployeeInfo() {
     const [error, setError] = useState("");
 
     useEffect(() => {
-        const fetchEmployeeInfo = async () => {
+        const fetchEmployee = async () => {
             setLoading(true);
-            setError("");
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/info`, {
-                    params: { userId: user.userId },
-                });
-                setInfo(response.data);
+                const response = await axios.post(
+                    `http://localhost:8081/${user.storeId}/employees/getEmployee`,
+                    { params: user.userId }
+                );
+                const emp = response.data;
+
+                // Ensure proper date format for input[type="date"]
+                emp.dateOfBirth = emp.dateOfBirth?.slice(0, 10) || "";
+
+                setInfo(emp);
             } catch (err) {
-                setError("Failed to fetch employee information.");
+                console.error("Error fetching employee:", err);
+                setError("Failed to fetch employee details.");
             } finally {
                 setLoading(false);
             }
         };
-
-        fetchEmployeeInfo();
-    }, [user]);
+        fetchEmployee();
+    }, [user.userId, user.storeId]);
 
     return (
         <div
