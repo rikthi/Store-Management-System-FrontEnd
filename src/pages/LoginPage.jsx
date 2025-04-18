@@ -6,6 +6,7 @@ import {useAuth} from "./AuthContext.jsx";
 export function LoginPage() {
     const { setUser } = useAuth(); // Get setUser function from context
     const [userId, setUserId] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -15,8 +16,8 @@ export function LoginPage() {
         setError("");
 
         try {
-            const response = await axios.post("http://localhost:8080/api/auth/login", {
-                userId, password
+            const response = await axios.post("http://localhost:8081/user/login", {
+                userId, email, password,
             });
 
             const { role, storeId } = response.data;
@@ -48,6 +49,14 @@ export function LoginPage() {
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         value={userId}
                         onChange={(e) => setUserId(e.target.value)}
+                    />
+                    <input
+                        type="emailAddress"
+                        placeholder="Email"
+                        required={true}
+                        className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     />
                     <input
                         type="password"

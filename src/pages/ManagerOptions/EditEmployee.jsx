@@ -15,18 +15,25 @@ export function EditEmployee() {
         const fetchEmployee = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/employee/view`, {
-                    params: { employeeId }
-                });
-                setEmployee(response.data);
+                const response = await axios.post(
+                    `http://localhost:8081/${user.storeId}/employees/getEmployee`,
+                    { params: parseInt(employeeId) }
+                );
+                const emp = response.data;
+
+                // Ensure proper date format for input[type="date"]
+                emp.dateOfBirth = emp.dateOfBirth?.slice(0, 10) || "";
+
+                setEmployee(emp);
             } catch (err) {
-                setError(err.message("Failed to fetch employee details."));
+                console.error("Error fetching employee:", err);
+                setError("Failed to fetch employee details.");
             } finally {
                 setLoading(false);
             }
         };
         fetchEmployee();
-    }, [employeeId]);
+    }, [employeeId, user.storeId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -39,10 +46,14 @@ export function EditEmployee() {
         setError("");
         setSuccess("");
         try {
-            await axios.put(`http://localhost:8081/${user.storeId}/employees/update/${employeeId}`, employee);
+            await axios.put(
+                `http://localhost:8081/${user.storeId}/employees/update/${employeeId}`,
+                employee
+            );
             setSuccess("Employee updated successfully!");
         } catch (err) {
-            setError(err.message("Failed to update employee."));
+            console.error("Error updating employee:", err);
+            setError("Failed to update employee.");
         } finally {
             setLoading(false);
         }
@@ -61,15 +72,49 @@ export function EditEmployee() {
 
                 {employee && (
                     <form onSubmit={handleUpdate} className="space-y-4">
-                        <input type="text" value={employee.id} disabled className="w-full p-2 border rounded bg-gray-200" />
-                        <input type="text" name="name" value={employee.name} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <input type="text" name="gender" value={employee.gender} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <input type="date" name="dateOfBirth" value={employee.dateOfBirth} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <input type="email" name="emailAddress" value={employee.emailAddress} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <textarea name="address" value={employee.address} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <input type="number" name="supervisorId" value={employee.supervisorId || ""} onChange={handleChange} className="w-full p-2 border rounded" />
-                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">Update</button>
+                        <div>
+                            <label className="text-sm font-semibold">Employee ID</label>
+                            <input type="text" value={employee.id} disabled className="w-full p-2 border rounded bg-gray-200" />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Name</label>
+                            <input type="text" name="name" value={employee.name} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Gender</label>
+                            <input type="text" name="gender" value={employee.gender} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Phone Number</label>
+                            <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Date of Birth</label>
+                            <input type="date" name="dateOfBirth" value={employee.dateOfBirth} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Email Address</label>
+                            <input type="email" name="emailAddress" value={employee.emailAddress} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Address</label>
+                            <textarea name="address" value={employee.address} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Supervisor ID</label>
+                            <input type="number" name="supervisorId" value={employee.supervisorId || ""} onChange={handleChange} className="w-full p-2 border rounded" />
+                        </div>
+
+                        <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
+                            Update
+                        </button>
                     </form>
                 )}
             </div>

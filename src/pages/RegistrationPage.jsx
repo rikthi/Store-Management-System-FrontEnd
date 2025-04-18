@@ -22,9 +22,8 @@ export function RegistrationPage() {
                 email
             });
 
-            const { registrationSuccessful } = response.data;
 
-            if (registrationSuccessful != null) {
+            if (response.data != null) {
                 navigate("/");
             } else {
                 setError("Login failed. Please check your credentials.");

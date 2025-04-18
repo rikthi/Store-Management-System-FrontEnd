@@ -13,7 +13,7 @@ export function AddHourlyEmployee() {
         dateOfBirth: "",
         emailAddress: "",
         address: "",
-        supervisor: "",
+        supervisorId: "",
     });
 
     const [payScale, setPayScale] = useState("");
@@ -51,20 +51,21 @@ export function AddHourlyEmployee() {
         }
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/hourlyEmployee/create`, {
-                employeeData,
-                payScale: parseFloat(payScale)
+            await axios.post(`http://localhost:8081/${user.storeId}/employees/create/hourlyEmployee`, {
+                employee: employeeData,
+                    payScale: parseFloat(payScale)
             });
+
             setSuccess("Employee added successfully!");
             setEmployeeData({
                 id: "",
                 name: "",
-                gender: "Male",
+                gender: "",
                 phoneNumber: "",
                 dateOfBirth: "",
                 emailAddress: "",
                 address: "",
-                supervisor: "",
+                supervisorId: "",
             });
             setPayScale("");
         } catch (err) {
@@ -73,6 +74,7 @@ export function AddHourlyEmployee() {
             setLoading(false);
         }
     };
+
 
     return (
         <div
@@ -85,7 +87,7 @@ export function AddHourlyEmployee() {
                 <h1 className="text-3xl font-bold text-gray-800">Add Hourly Employee</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4 w-80">
-                    {["name", "dateOfBirth", "phoneNumber", "emailAddress", "address", "supervisor"].map((field) => (
+                    {["name", "dateOfBirth", "phoneNumber", "emailAddress", "address", "supervisorId"].map((field) => (
                         <div key={field}>
                             <label htmlFor={field} className="block text-sm font-semibold text-gray-700">
                                 {field === "dateOfBirth" ? "Date of Birth" : field.charAt(0).toUpperCase() + field.slice(1).replace(/([A-Z])/g, ' $1')}
@@ -101,7 +103,7 @@ export function AddHourlyEmployee() {
                                 />
                             ) : (
                                 <input
-                                    type={field === "dateOfBirth" ? "date" : field === "phoneNumber" || field === "supervisor" ? "tel" : "text"}
+                                    type={field === "dateOfBirth" ? "date" : field === "phoneNumber" || field === "supervisorId" ? "tel" : "text"}
                                     id={field}
                                     name={field}
                                     value={employeeData[field]}
