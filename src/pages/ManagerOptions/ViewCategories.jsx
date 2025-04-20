@@ -9,14 +9,13 @@ export function ViewCategories() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    // Fetch all categories
     useEffect(() => {
         const fetchCategories = async () => {
             try {
                 const response = await axios.get("http://localhost:8081/categories");
                 setCategories(response.data);
                 if (response.data.length > 0) {
-                    setSelectedCategory(response.data[0]); // Default select first category
+                    setSelectedCategory(response.data[0]); // Default to first
                 }
             } catch (err) {
                 console.error("Failed to load categories", err);
@@ -25,7 +24,6 @@ export function ViewCategories() {
         fetchCategories();
     }, []);
 
-    // Fetch items of selected category
     useEffect(() => {
         if (!selectedCategory) return;
         const fetchItems = async () => {
@@ -53,9 +51,12 @@ export function ViewCategories() {
     };
 
     return (
-        <div className="flex min-h-screen bg-gray-100">
-            {/* Sidebar */}
-            <div className="w-1/5 bg-white shadow-md p-4">
+        <div
+            className="flex min-h-screen pt-24 bg-gray-100 bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}
+        >
+        {/* Sidebar */}
+            <div className="w-1/5 bg-white bg-opacity-80 shadow-md p-4">
                 <h2 className="text-xl font-bold mb-4">Categories</h2>
                 <ul className="space-y-2">
                     {categories.map((category, idx) => (
@@ -78,13 +79,13 @@ export function ViewCategories() {
                 </button>
             </div>
 
-            {/* Item Table */}
+            {/* Main Content */}
             <div className="w-4/5 p-6">
                 <h2 className="text-2xl font-bold mb-4">Items in {selectedCategory}</h2>
                 {loading ? (
                     <p>Loading items...</p>
                 ) : (
-                    <table className="w-full table-auto bg-white rounded shadow">
+                    <table className="w-full table-auto bg-white bg-opacity-90 rounded shadow">
                         <thead className="bg-gray-200">
                         <tr>
                             <th className="p-2">Item ID</th>

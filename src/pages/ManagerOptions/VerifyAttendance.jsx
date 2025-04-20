@@ -46,7 +46,7 @@ export function VerifyAttendance() {
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {success && <p className="text-green-600 mb-4">{success}</p>}
 
-            <div className="overflow-x-auto bg-white rounded shadow p-4">
+            <div className="overflow-x-auto bg-white bg-opacity-90 rounded shadow p-4">
                 <table className="w-full table-auto text-sm text-left">
                     <thead className="bg-gray-200">
                     <tr>

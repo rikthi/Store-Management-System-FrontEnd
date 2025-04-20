@@ -60,7 +60,7 @@ export function AddInventory() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
              style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}>
-            <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+            <div className="bg-white bg-opacity-80  p-8 rounded-lg shadow-md w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Inventory Category</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
