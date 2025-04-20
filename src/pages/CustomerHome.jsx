@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import React from "react";
 
 
 export function CustomerHome() {
@@ -31,6 +32,12 @@ export function CustomerHome() {
                         className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
                     >
                         View Receipts
+                    </button>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="btn-primary"
+                    >
+                        Logout
                     </button>
                 </div>
             </div>

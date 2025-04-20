@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext.jsx";
+import { useEffect } from "react";
 
 export function HourlyEmployeeHome() {
     const navigate = useNavigate();
-    const { user } = useAuth(); // AuthContext provides employeeId
+    const { user } = useAuth();
 
     const [attendanceId, setAttendanceId] = useState(null);
     const [personalDetails] = useState(null);
@@ -13,8 +14,9 @@ export function HourlyEmployeeHome() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
-    const getTimestamp = () =>
-        new Date().toLocaleString("en-CA", {
+    // Get timestamp in Calgary local time as ISO string without milliseconds
+    const getCalgaryTimestamp = () => {
+        const date = new Date().toLocaleString("en-CA", {
             timeZone: "America/Edmonton",
             year: "numeric",
             month: "2-digit",
@@ -22,26 +24,38 @@ export function HourlyEmployeeHome() {
             hour: "2-digit",
             minute: "2-digit",
             second: "2-digit",
-            hour12: true,
+            hour12: false,
         });
 
+        // Convert to ISO 8601 format expected by Java LocalDateTime
+        const [datePart, timePart] = date.split(", ");
+        return `${datePart}T${timePart}`;
+    };
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => {
+                setError("");
+            }, 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
     const fetchSalary = async () => {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.get(`http://localhost:8080/${user.storeId}/employees/pay-scale`, {
+            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/pay-scale`, {
                 params: { userId: user.userId }
             });
             setPayScale(response.data);
         } catch (err) {
-            setError("Failed to fetch salary");
+            setError("Failed to fetch pay scale");
         } finally {
             setLoading(false);
         }
     };
 
     const punchIn = async () => {
-        const timestamp = getTimestamp();
+        const timestamp = getCalgaryTimestamp();
         const confirmed = window.confirm(`Confirm Punch In at ${timestamp}?`);
         if (!confirmed) return;
 
@@ -51,10 +65,10 @@ export function HourlyEmployeeHome() {
                 employeeId: user.userId,
                 verifierId: "",
                 punchInTime: timestamp,
-                punchOutTime: "",
+                punchOutTime: null,
                 isVerified: false,
             });
-            setAttendanceId(response.data); // save attendance ID
+            setAttendanceId(response.data); // Save ID for punch-out
             alert("Punch In recorded.");
         } catch (err) {
             alert("Failed to record Punch In.");
@@ -62,22 +76,22 @@ export function HourlyEmployeeHome() {
     };
 
     const punchOut = async () => {
-        const timestamp = getTimestamp();
+        const timestamp = getCalgaryTimestamp();
         const confirmed = window.confirm(`Confirm Punch Out at ${timestamp}?`);
         if (!confirmed) return;
 
         if (!attendanceId) {
-            alert("Error: No valid punch-in record found.");
+            alert("Error: You must punch in before punching out.");
             return;
         }
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/attendance/punchOut`, {
-                id: attendanceId,
+            await axios.put(`http://localhost:8081/${user.storeId}/attendance/punchOut`, {
+                id: user.userId,
                 punchOutTime: timestamp,
             });
             alert("Punch Out recorded.");
-            setAttendanceId(null); // clear after punch out
+            setAttendanceId(null); // Clear after punch-out
         } catch (err) {
             alert("Failed to record Punch Out.");
         }
@@ -110,6 +124,12 @@ export function HourlyEmployeeHome() {
                     </button>
                     <button onClick={() => navigate("/Employee/CreateReceipt")} className="w-full bg-purple-500 text-white p-3 rounded-lg hover:bg-purple-600 transition">
                         Create Receipt
+                    </button>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="btn-primary"
+                    >
+                        Logout
                     </button>
                 </div>
 

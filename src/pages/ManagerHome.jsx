@@ -61,6 +61,12 @@ export function ManagerHome() {
                     >
                         View Employees
                     </button>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="btn-primary"
+                    >
+                        Logout
+                    </button>
                 </div>
             </div>
         </div>

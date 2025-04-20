@@ -15,7 +15,7 @@ import {CreateReceipt} from "./pages/Employee/CreateReceipt.jsx";
 import {AddHourlyEmployee} from "./pages/ManagerOptions/AddHourlyEmployee.jsx";
 import {AddSalariedEmployee} from "./pages/ManagerOptions/AddSalariedEmployee.jsx";
 import {ViewEmployees} from "./pages/ManagerOptions/ViewEmployees.jsx";
-import {OrderItem} from "./pages/ManagerOptions/OrderItem.jsx";
+import {AddNewItem} from "./pages/ManagerOptions/AddNewItem.jsx";
 import {ViewCategories} from "./pages/ManagerOptions/ViewCategories.jsx";
 import {StockReport} from "./pages/ManagerOptions/StockReport";
 import {ViewReceipts} from "./pages/Customer/ViewReceipts.jsx";
@@ -24,6 +24,8 @@ import {EditEmployee} from "./pages/ManagerOptions/EditEmployee.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
 import {CreateStore} from "./pages/CreateStore.jsx";
+import {EditHourlyEmployee} from "./pages/ManagerOptions/EditHourlyEmployee.jsx";
+import {EditSalariedEmployee} from "./pages/ManagerOptions/EditSalariedEmployee.jsx";
 
 
 
@@ -51,10 +53,12 @@ function App() {
                     <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
                     <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo />} />
                     <Route path="/ManagerOptions/AddHourlyEmployee" element={<AddHourlyEmployee />} />
+                    <Route path="/ManagerOptions/EditHourlyEmployee/:employeeId" element={<EditHourlyEmployee />} />
                     <Route path="/ManagerOptions/AddSalariedEmployee" element={<AddSalariedEmployee />} />
+                    <Route path="/ManagerOptions/EditSalariedEmployee/:employeeId" element={<EditSalariedEmployee />} />
                     <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees />} />
                     <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee />} />
-                    <Route path="/ManagerOptions/OrderItem" element={<OrderItem />} />
+                    <Route path="/ManagerOptions/AddNewItem" element={<AddNewItem />} />
                     <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories />} />
                     <Route path="/ManagerOptions/StockReport" element={<StockReport />} />
                     <Route path="/Customer/ViewReceipts" element={<ViewReceipts/>} />
