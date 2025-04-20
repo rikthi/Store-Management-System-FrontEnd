@@ -28,7 +28,6 @@ export function VerifyAttendance() {
                 verifierId: user.userId,
             });
             setSuccess(`Attendance ${attendanceId} verified successfully!`);
-            // Refresh list
             setAttendances((prev) =>
                 prev.map((a) =>
                     a.id === attendanceId ? { ...a, isVerified: true, verifierId: user.userId } : a
@@ -40,8 +39,9 @@ export function VerifyAttendance() {
     };
 
     return (
-        <div className="p-6">
-            <h1 className="text-2xl font-bold mb-4">Verify Attendance</h1>
+        <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
+             style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}>
+            <h1 className="text-2xl font-bold mb-4 text-gray-800">Verify Attendance</h1>
 
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {success && <p className="text-green-600 mb-4">{success}</p>}
