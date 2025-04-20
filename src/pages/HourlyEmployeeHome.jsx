@@ -6,20 +6,24 @@ import { useAuth } from "./AuthContext.jsx";
 export function HourlyEmployeeHome() {
     const navigate = useNavigate();
     const { user } = useAuth(); // AuthContext provides employeeId
+
+    const [attendanceId, setAttendanceId] = useState(null);
     const [personalDetails] = useState(null);
     const [payScale, setPayScale] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const timestamp = new Date().toLocaleString("en-CA", {
-        timeZone: "America/Edmonton",
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: true,
-    });
+
+    const getTimestamp = () =>
+        new Date().toLocaleString("en-CA", {
+            timeZone: "America/Edmonton",
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: true,
+        });
 
     const fetchSalary = async () => {
         setLoading(true);
@@ -30,40 +34,52 @@ export function HourlyEmployeeHome() {
             });
             setPayScale(response.data);
         } catch (err) {
-            setError(err.message("Failed to fetch salary"));
+            setError("Failed to fetch salary");
         } finally {
             setLoading(false);
         }
     };
 
     const punchIn = async () => {
-
+        const timestamp = getTimestamp();
         const confirmed = window.confirm(`Confirm Punch In at ${timestamp}?`);
         if (!confirmed) return;
 
         try {
-            await axios.post(`http://localhost:8080/${user.storeId}/employees/punch-in`, {
+            const response = await axios.post(`http://localhost:8081/${user.storeId}/attendance/punchIn`, {
+                id: "",
                 employeeId: user.userId,
-                punchInTime: timestamp
+                verifierId: "",
+                punchInTime: timestamp,
+                punchOutTime: "",
+                isVerified: false,
             });
+            setAttendanceId(response.data); // save attendance ID
             alert("Punch In recorded.");
         } catch (err) {
-            alert(err.message("Failed to record Punch In."));
+            alert("Failed to record Punch In.");
         }
     };
 
     const punchOut = async () => {
+        const timestamp = getTimestamp();
         const confirmed = window.confirm(`Confirm Punch Out at ${timestamp}?`);
         if (!confirmed) return;
 
+        if (!attendanceId) {
+            alert("Error: No valid punch-in record found.");
+            return;
+        }
+
         try {
-            await axios.post(`http://localhost:8080/${user.storeId}/employees/punch-out`, {
-                employeeId: user.userId,
-                punchOutTime: timestamp
+            await axios.post(`http://localhost:8081/${user.storeId}/attendance/punchOut`, {
+                id: attendanceId,
+                punchOutTime: timestamp,
             });
             alert("Punch Out recorded.");
+            setAttendanceId(null); // clear after punch out
         } catch (err) {
-            alert(err.message("Failed to record Punch Out."));
+            alert("Failed to record Punch Out.");
         }
     };
 

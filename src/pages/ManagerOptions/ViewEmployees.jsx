@@ -6,47 +6,46 @@ import { useAuth } from "../AuthContext.jsx";
 export function ViewEmployees() {
     const { user } = useAuth();
     const [employees, setEmployees] = useState([]);
-    const [filteredEmployees, setFilteredEmployees] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [filterType, setFilterType] = useState("ALL");
     const navigate = useNavigate();
 
+    // Fetch based on filter
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees`);
+                let response;
+                if (filterType === "ALL") {
+                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees`);
+                } else if (filterType === "SALARIED_EMPLOYEE") {
+                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listSalariedEmployees`);
+                } else if (filterType === "HOURLY_EMPLOYEE") {
+                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listHourlyEmployees`);
+                } else if (filterType === "SUPERVISOR") {
+                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listSupervisors`);
+                }
                 setEmployees(response.data);
-                setFilteredEmployees(response.data);
             } catch (error) {
-                console.error("Failed to fetch employees", error);
+                console.error("Fetch error:", error);
+                setEmployees([]); // ✅ clear on error
             }
         };
         fetchEmployees();
-    }, [user]);
+    }, [filterType, user.storeId]);
 
-    useEffect(() => {
-        let temp = employees;
+    const filtered = employees.filter((emp) => {
+        const id = emp.employee ? emp.employee.id : emp.id;
+        return id.toString().includes(searchTerm);
+    });
 
-        if (searchTerm) {
-            temp = temp.filter((emp) => emp.id.toString().includes(searchTerm));
-        }
-
-        if (filterType !== "ALL") {
-            temp = temp.filter((emp) => emp.role === filterType);
-        }
-
-        setFilteredEmployees(temp);
-    }, [searchTerm, employees, filterType]);
-
-    const handleViewDetails = (employeeId, role) => {
-        if (role === "SUPERVISOR") {
-            navigate(`/ManagerOptions/EditEmployee/${employeeId}`);
-        } else if (role === "HOURLY_EMPLOYEE") {
-            navigate(`/ManagerOptions/EditHourlyEmployee/${employeeId}`);
-        } else if (role === "SALARIED_EMPLOYEE") {
-            navigate(`/ManagerOptions/EditSalariedEmployee/${employeeId}`);
+    const handleViewDetails = (emp) => {
+        const id = emp.employee ? emp.employee.id : emp.id;
+        if (filterType === "SALARIED_EMPLOYEE") {
+            navigate(`/ManagerOptions/EditSalariedEmployee/${id}`);
+        } else if (filterType === "HOURLY_EMPLOYEE") {
+            navigate(`/ManagerOptions/EditHourlyEmployee/${id}`);
         } else {
-            navigate(`/ManagerOptions/EditEmployee/${employeeId}`);
+            navigate(`/ManagerOptions/EditEmployee/${id}`);
         }
     };
 
@@ -54,11 +53,9 @@ export function ViewEmployees() {
         <div className="relative flex flex-col items-center justify-start min-h-screen bg-cover bg-center p-10"
              style={{ backgroundImage: "url('../src/assets/loginBg.jpg')" }}>
             <div className="absolute inset-0 bg-black opacity-50 -z-10" />
-
-            {/* Heading */}
             <h1 className="text-3xl font-bold text-white mt-20 mb-6">View Employees</h1>
 
-            {/* Search + Filter Row */}
+            {/* Search + Filters */}
             <div className="flex flex-wrap justify-center items-center gap-4 mb-6 w-full max-w-6xl">
                 <input
                     type="text"
@@ -67,26 +64,21 @@ export function ViewEmployees() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="p-2 border rounded w-[60%] min-w-[250px]"
                 />
-
                 <div className="flex gap-2">
-                    <button
-                        onClick={() => setFilterType("SUPERVISOR")}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 hover:scale-105 transition-transform duration-200"
-                    >
-                        Supervisors
-                    </button>
-                    <button
-                        onClick={() => setFilterType("HOURLY_EMPLOYEE")}
-                        className="px-4 py-2 bg-green-500 text-white rounded-lg shadow-lg hover:bg-green-600 hover:scale-105 transition-transform duration-200"
-                    >
-                        Hourly
-                    </button>
-                    <button
-                        onClick={() => setFilterType("SALARIED_EMPLOYEE")}
-                        className="px-4 py-2 bg-yellow-500 text-white rounded-lg shadow-lg hover:bg-yellow-600 hover:scale-105 transition-transform duration-200"
-                    >
-                        Salaried
-                    </button>
+                    {['ALL', 'SUPERVISOR', 'HOURLY_EMPLOYEE', 'SALARIED_EMPLOYEE'].map(type => (
+                        <button
+                            key={type}
+                            onClick={() => setFilterType(type)}
+                            className={`px-4 py-2 rounded-lg shadow-lg transition-transform duration-200 text-white ${
+                                type === 'SUPERVISOR' ? 'bg-red-500 hover:bg-red-600'
+                                    : type === 'HOURLY_EMPLOYEE' ? 'bg-green-500 hover:bg-green-600'
+                                        : type === 'SALARIED_EMPLOYEE' ? 'bg-yellow-500 hover:bg-yellow-600'
+                                            : 'bg-blue-500 hover:bg-blue-600'
+                            }`}
+                        >
+                            {type.replace('_', ' ')}
+                        </button>
+                    ))}
                 </div>
             </div>
 
@@ -103,33 +95,44 @@ export function ViewEmployees() {
                         <th className="px-4 py-2">DOB</th>
                         <th className="px-4 py-2">Address</th>
                         <th className="px-4 py-2">Supervisor ID</th>
+                        {filterType === "SALARIED_EMPLOYEE" && <th className="px-4 py-2">Salary</th>}
+                        {filterType === "HOURLY_EMPLOYEE" && <th className="px-4 py-2">Pay Scale</th>}
                         <th className="px-4 py-2">Action</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {filteredEmployees.map((emp) => (
-                        <tr key={emp.id} className="border-t hover:bg-gray-50">
-                            <td className="px-4 py-2">{emp.id}</td>
-                            <td className="px-4 py-2">{emp.name}</td>
-                            <td className="px-4 py-2">{emp.role}</td>
-                            <td className="px-4 py-2">{emp.phoneNumber}</td>
-                            <td className="px-4 py-2">{emp.emailAddress}</td>
-                            <td className="px-4 py-2">{emp.dateOfBirth || "N/A"}</td>
-                            <td className="px-4 py-2">{emp.address}</td>
-                            <td className="px-4 py-2">{emp.supervisorId ?? "N/A"}</td>
-                            <td className="px-4 py-2">
-                                <button
-                                    onClick={() => handleViewDetails(emp.id, emp.role)}
-                                    className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-800"
-                                >
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                    {filteredEmployees.length === 0 && (
+                    {filtered.map((emp, idx) => {
+                        const e = emp.employee || emp;
+                        return (
+                            <tr key={e.id || idx} className="border-t hover:bg-gray-50">
+                                <td className="px-4 py-2">{e.id}</td>
+                                <td className="px-4 py-2">{e.name}</td>
+                                <td className="px-4 py-2">{emp.role || filterType}</td>
+                                <td className="px-4 py-2">{e.phoneNumber}</td>
+                                <td className="px-4 py-2">{e.emailAddress}</td>
+                                <td className="px-4 py-2">{e.dateOfBirth || "N/A"}</td>
+                                <td className="px-4 py-2">{e.address}</td>
+                                <td className="px-4 py-2">{e.supervisorId ?? "N/A"}</td>
+                                {filterType === "SALARIED_EMPLOYEE" && (
+                                    <td className="px-4 py-2">{emp.salary}</td>
+                                )}
+                                {filterType === "HOURLY_EMPLOYEE" && (
+                                    <td className="px-4 py-2">{emp.payScale}</td>
+                                )}
+                                <td className="px-4 py-2">
+                                    <button
+                                        onClick={() => handleViewDetails(emp)}
+                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-800"
+                                    >
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                    {filtered.length === 0 && (
                         <tr>
-                            <td colSpan="9" className="text-center py-4 text-gray-500">
+                            <td colSpan="10" className="text-center py-4 text-gray-500">
                                 No employees found.
                             </td>
                         </tr>

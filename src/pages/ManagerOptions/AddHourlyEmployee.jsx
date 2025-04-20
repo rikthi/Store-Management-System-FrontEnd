@@ -53,7 +53,7 @@ export function AddHourlyEmployee() {
         try {
             await axios.post(`http://localhost:8081/${user.storeId}/employees/create/hourlyEmployee`, {
                 employee: employeeData,
-                    payScale: parseFloat(payScale)
+                payScale: parseFloat(payScale)
             });
 
             setSuccess("Employee added successfully!");

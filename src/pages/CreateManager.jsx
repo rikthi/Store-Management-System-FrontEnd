@@ -1,30 +1,36 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export function CreateManager() {
+    const { storeId } = useParams(); // storeId from URL
     const [managerData, setManagerData] = useState({
-        id: "",
-        name: "",
-        gender: "Male",
-        phoneNumber: "",
-        dateOfBirth: "",
-        emailAddress: "",
-        address: "",
-        password: ""
+        employee: {
+            id: "",
+            name: "",
+            gender: "Male",
+            phoneNumber: "",
+            dateOfBirth: "",
+            emailAddress: "",
+            address: "",
+            supervisorId: "",
+            storeId: ""
+        }
     });
 
-    const [storeId, setStoreId] = useState(""); // separate storeId (not part of managerData)
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        if (name === "storeId") {
-            setStoreId(value);
-        } else {
-            setManagerData((prev) => ({ ...prev, [name]: value }));
-        }
+        setManagerData((prev) => ({
+            ...prev,
+            employee: {
+                ...prev.employee,
+                [name]: value
+            }
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -33,17 +39,28 @@ export function CreateManager() {
         setError("");
         setSuccess("");
 
+        // Inject storeId before submitting
+        const payload = {
+            ...managerData,
+            employee: {
+                ...managerData.employee,
+                storeId: parseInt(storeId),
+            }
+        };
+
         try {
-            await axios.post(
-                `http://localhost:8080/${storeId}/managers/create`,
-                managerData
+            const response = await axios.post(
+                `http://localhost:8081/${storeId}/employees/create/manager`,
+                payload
             );
-            setSuccess("Manager created successfully!");
+
+            const createdId = response.data.employee.id;
+            setSuccess(`✅ Manager created successfully with ID: ${createdId}. Make sure to remember this ID!`);
         } catch (err) {
             if (err.response?.data) {
                 setError(err.response.data);
             } else {
-                setError("Failed to create manager.");
+                setError("❌ Failed to create manager.");
             }
         } finally {
             setLoading(false);
@@ -61,20 +78,18 @@ export function CreateManager() {
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {[
-                        { label: "Manager ID", name: "id", type: "text" },
-                        { label: "Password", name: "password", type: "password" },
                         { label: "Name", name: "name", type: "text" },
                         { label: "Phone Number", name: "phoneNumber", type: "tel" },
                         { label: "Date of Birth", name: "dateOfBirth", type: "date" },
                         { label: "Email Address", name: "emailAddress", type: "email" },
-                        { label: "Address", name: "address", type: "text" }
+                        { label: "Address", name: "address", type: "text" },
                     ].map(({ label, name, type }) => (
                         <div key={name}>
                             <label className="block text-sm font-semibold text-gray-700">{label}</label>
                             <input
                                 type={type}
                                 name={name}
-                                value={managerData[name]}
+                                value={managerData.employee[name]}
                                 onChange={handleChange}
                                 className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 required
@@ -82,25 +97,12 @@ export function CreateManager() {
                         </div>
                     ))}
 
-                    {/* Store ID input (separate) */}
-                    <div>
-                        <label className="block text-sm font-semibold text-gray-700">Store ID</label>
-                        <input
-                            type="text"
-                            name="storeId"
-                            value={storeId}
-                            onChange={handleChange}
-                            className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            required
-                        />
-                    </div>
-
                     {/* Gender Dropdown */}
                     <div>
                         <label className="block text-sm font-semibold text-gray-700">Gender</label>
                         <select
                             name="gender"
-                            value={managerData.gender}
+                            value={managerData.employee.gender}
                             onChange={handleChange}
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required
@@ -120,7 +122,7 @@ export function CreateManager() {
                 </form>
 
                 {error && <p className="text-red-500 mt-4">{error}</p>}
-                {success && <p className="text-green-500 mt-4">{success}</p>}
+                {success && <p className="text-green-600 mt-4 font-semibold">{success}</p>}
             </div>
         </div>
     );

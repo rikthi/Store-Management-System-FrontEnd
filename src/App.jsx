@@ -23,6 +23,7 @@ import {ViewCustomerInfo} from "./pages/Customer/ViewCustomerInfo.jsx";
 import {EditEmployee} from "./pages/ManagerOptions/EditEmployee.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
+import {CreateStore} from "./pages/CreateStore.jsx";
 
 
 
@@ -39,7 +40,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LoginPage />} />
                     <Route path="/Register" element={<RegistrationPage />} />
-                    <Route path="/CreateManager" element={<CreateManager />} />
+                    <Route path="/CreateStore" element={<CreateStore />} />
+                    <Route path="/CreateManager/:storeId" element={<CreateManager />} />
                     <Route path="/Supervisor" element={<SupervisorHome />} />
                     <Route path="/ManagerHome" element={<ManagerHome />} />
                     <Route path="/Hourlyemployee" element={<HourlyEmployeeHome />} />

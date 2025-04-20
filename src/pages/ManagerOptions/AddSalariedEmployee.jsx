@@ -15,7 +15,7 @@ export function AddSalariedEmployee() {
         supervisorId: "",
     });
 
-    const [payScale, setPayScale] = useState("");
+    const [salary, setSalary] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
     const [loading, setLoading] = useState(false);
@@ -43,7 +43,7 @@ export function AddSalariedEmployee() {
         setError("");
         setSuccess("");
 
-        if (parseFloat(payScale) < 0) {
+        if (parseFloat(salary) < 0) {
             setError("Pay scale cannot be negative.");
             setLoading(false);
             return;
@@ -52,7 +52,7 @@ export function AddSalariedEmployee() {
         try {
             await axios.post(`http://localhost:8081/${user.storeId}/employees/create/salariedEmployee`, {
                 employee: employeeData,
-                payScale: parseFloat(payScale)
+                salary: parseFloat(salary)
             });
 
             setSuccess("Employee added successfully!");
@@ -66,7 +66,7 @@ export function AddSalariedEmployee() {
                 address: "",
                 supervisorId: "",
             });
-            setPayScale("");
+            setSalary("");
         } catch (err) {
             setError("Error adding employee. Please try again.");
         } finally {
@@ -83,7 +83,7 @@ export function AddSalariedEmployee() {
             <div className="absolute inset-0 bg-black opacity-50"></div>
 
             <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
-                <h1 className="text-3xl font-bold text-gray-800">Add Hourly Employee</h1>
+                <h1 className="text-3xl font-bold text-gray-800">Add Salaried Employee</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-4 w-80">
                     {["name", "dateOfBirth", "phoneNumber", "emailAddress", "address", "supervisorId"].map((field) => (
@@ -133,13 +133,13 @@ export function AddSalariedEmployee() {
 
                     {/* Pay Scale */}
                     <div>
-                        <label htmlFor="payScale" className="block text-sm font-semibold text-gray-700">Pay Scale</label>
+                        <label htmlFor="salary" className="block text-sm font-semibold text-gray-700">Monthly Salary</label>
                         <input
                             type="number"
-                            id="payScale"
-                            name="payScale"
-                            value={payScale}
-                            onChange={(e) => setPayScale(e.target.value)}
+                            id="salary"
+                            name="salary"
+                            value={salary}
+                            onChange={(e) => setSalary(e.target.value)}
                             min="0"
                             className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                             required

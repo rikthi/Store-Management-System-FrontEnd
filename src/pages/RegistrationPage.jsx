@@ -85,12 +85,12 @@ export function RegistrationPage() {
                 </p>
 
                 <p className="mt-2 text-center text-gray-600">
-                    Want to register as a manager?{" "}
+                    Want to create a store?{" "}
                     <button
-                        onClick={() => navigate("/CreateManager")}
+                        onClick={() => navigate("/CreateStore")}
                         className="text-blue-600 hover:underline"
                     >
-                        Create a Manager
+                        Create a Store
                     </button>
                 </p>
             </div>
