@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "./AuthContext.jsx";
+import { useAuth } from "../AuthContext.jsx";
 
 export function VerifyAttendance() {
     const { user } = useAuth();
@@ -9,7 +9,7 @@ export function VerifyAttendance() {
     const [success, setSuccess] = useState("");
 
     useEffect(() => {
-        const fetchAttendances = async () => {
+        const fetchAttendance = async () => {
             try {
                 const response = await axios.get(`http://localhost:8081/${user.storeId}/attendance/list`);
                 setAttendances(response.data);
@@ -17,7 +17,7 @@ export function VerifyAttendance() {
                 setError("Failed to load attendance records.");
             }
         };
-        fetchAttendances();
+        fetchAttendance();
     }, [user.storeId]);
 
     const handleVerify = async (attendanceId) => {

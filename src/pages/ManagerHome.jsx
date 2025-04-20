@@ -24,10 +24,10 @@ export function ManagerHome() {
                     </button>
 
                     <button
-                        onClick={() => navigate("/ManagerOptions/OrderItem")}
+                        onClick={() => navigate("/ManagerOptions/AddInventory")}
                         className="btn-primary"
                     >
-                        Order Item
+                        Add New Inventory
                     </button>
                     <button
                         onClick={() => navigate("/ManagerOptions/ViewCategories")}
@@ -60,6 +60,12 @@ export function ManagerHome() {
                         className="btn-primary"
                     >
                         View Employees
+                    </button>
+                    <button
+                        onClick={() => navigate("/ManagerOptions/VerifyAttendance")}
+                        className="btn-primary"
+                    >
+                        Verify Attendance
                     </button>
                     <button
                         onClick={() => navigate("/")}

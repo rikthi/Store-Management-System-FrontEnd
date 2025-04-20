@@ -26,6 +26,8 @@ import {AuthProvider} from "./pages/AuthContext.jsx";
 import {CreateStore} from "./pages/CreateStore.jsx";
 import {EditHourlyEmployee} from "./pages/ManagerOptions/EditHourlyEmployee.jsx";
 import {EditSalariedEmployee} from "./pages/ManagerOptions/EditSalariedEmployee.jsx";
+import {VerifyAttendance} from "./pages/ManagerOptions/VerifyAttendance.jsx";
+import {AddInventory} from "./pages/ManagerOptions/AddInventory.jsx";
 
 
 
@@ -57,8 +59,10 @@ function App() {
                     <Route path="/ManagerOptions/AddSalariedEmployee" element={<AddSalariedEmployee />} />
                     <Route path="/ManagerOptions/EditSalariedEmployee/:employeeId" element={<EditSalariedEmployee />} />
                     <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees />} />
+                    <Route path="/ManagerOptions/VerifyAttendance" element={<VerifyAttendance />} />
                     <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee />} />
                     <Route path="/ManagerOptions/AddNewItem" element={<AddNewItem />} />
+                    <Route path="/ManagerOptions/AddInventory" element={<AddInventory />} />
                     <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories />} />
                     <Route path="/ManagerOptions/StockReport" element={<StockReport />} />
                     <Route path="/Customer/ViewReceipts" element={<ViewReceipts/>} />
