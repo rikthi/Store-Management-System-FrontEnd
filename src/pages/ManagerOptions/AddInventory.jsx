@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { useAuth } from "../AuthContext.jsx";
 
 export function AddInventory() {
+    const { user } = useAuth();
     const [inventoryData, setInventoryData] = useState({
         id: "",
         category: "",
-        minStock: "",
-        maxStock: ""
+        currentStockLevel: "",
+        minimumStockLevel: "",
+        maximumStockLevel: "",
+        storeId: user.storeId,
     });
 
     const [loading, setLoading] = useState(false);
@@ -21,16 +25,25 @@ export function AddInventory() {
         }));
     };
 
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setSuccess("");
+            setError("");
+        }, 3000);
+        return () => clearTimeout(timer);
+    }, [success, error]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSuccess("");
         setError("");
 
-        const { category, minStock, maxStock } = inventoryData;
-        const min = Number(minStock);
-        const max = Number(maxStock);
+        const { category, currentStockLevel, minimumStockLevel, maximumStockLevel } = inventoryData;
+        const current = Number(currentStockLevel);
+        const min = Number(minimumStockLevel);
+        const max = Number(maximumStockLevel);
 
-        if (min < 0 || max < 0) {
+        if (current < 0 || min < 0 || max < 0) {
             setError("Stock levels cannot be negative.");
             return;
         }
@@ -40,16 +53,31 @@ export function AddInventory() {
             return;
         }
 
+        if (current > max) {
+            setError("Current stock cannot be greater than maximum stock.");
+            return;
+        }
+
         setLoading(true);
         try {
-            await axios.post("http://localhost:8081/inventory/add", {
+            await axios.post(`http://localhost:8081/${user.storeId}/inventory/create`, {
                 id: "",
                 category,
-                minStock: min,
-                maxStock: max
+                currentStockLevel: current,
+                minimumStockLevel: min,
+                maximumStockLevel: max,
+                storeId: user.storeId
             });
+
             setSuccess("Inventory category added successfully!");
-            setInventoryData({id:"", category: "", minStock: "", maxStock: "" });
+            setInventoryData({
+                id: "",
+                category: "",
+                currentStockLevel: "",
+                minimumStockLevel: "",
+                maximumStockLevel: "",
+                storeId: user.storeId,
+            });
         } catch (err) {
             setError("Failed to add inventory category.");
         } finally {
@@ -60,47 +88,29 @@ export function AddInventory() {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
              style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}>
-            <div className="bg-white bg-opacity-80  p-8 rounded-lg shadow-md w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Inventory Category</h2>
+            <div className="absolute inset-0 bg-black opacity-50" />
+            <div className="relative z-10 bg-white bg-opacity-80 p-8 rounded-lg shadow-md w-full max-w-md">
+                <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Add Inventory</h2>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">Category Name</label>
-                        <input
-                            type="text"
-                            name="category"
-                            value={inventoryData.category}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">Minimum Stock Level</label>
-                        <input
-                            type="number"
-                            name="minStock"
-                            value={inventoryData.minStock}
-                            min= {0}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded"
-                            required
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-semibold mb-1">Maximum Stock Level</label>
-                        <input
-                            type="number"
-                            name="maxStock"
-                            value={inventoryData.maxStock}
-                            min= {0}
-                            onChange={handleChange}
-                            className="w-full p-2 border rounded"
-                            required
-                        />
-                    </div>
+                    {[
+                        { label: "Category Name", name: "category", type: "text" },
+                        { label: "Minimum Stock Level", name: "minimumStockLevel", type: "number" },
+                        { label: "Maximum Stock Level", name: "maximumStockLevel", type: "number" }
+                    ].map(({ label, name, type }) => (
+                        <div key={name}>
+                            <label className="block text-sm font-semibold mb-1">{label}</label>
+                            <input
+                                type={type}
+                                name={name}
+                                value={inventoryData[name]}
+                                min={type === "number" ? 0 : undefined}
+                                onChange={handleChange}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
+                        </div>
+                    ))}
 
                     <button
                         type="submit"

@@ -28,6 +28,7 @@ import {EditHourlyEmployee} from "./pages/ManagerOptions/EditHourlyEmployee.jsx"
 import {EditSalariedEmployee} from "./pages/ManagerOptions/EditSalariedEmployee.jsx";
 import {VerifyAttendance} from "./pages/ManagerOptions/VerifyAttendance.jsx";
 import {AddInventory} from "./pages/ManagerOptions/AddInventory.jsx";
+import {EditInventory} from "./pages/ManagerOptions/EditInventory.jsx";
 
 
 
@@ -37,40 +38,43 @@ import {AddInventory} from "./pages/ManagerOptions/AddInventory.jsx";
 function App() {
     return (
         <AuthProvider>
-        <div>
-            <WebsiteTitle />
-        <Router>
-            <div className="min-h-screen bg-gray-100 text-gray-900">
-                <Routes>
-                    <Route path="/" element={<LoginPage />} />
-                    <Route path="/Register" element={<RegistrationPage />} />
-                    <Route path="/CreateStore" element={<CreateStore />} />
-                    <Route path="/CreateManager/:storeId" element={<CreateManager />} />
-                    <Route path="/Supervisor" element={<SupervisorHome />} />
-                    <Route path="/ManagerHome" element={<ManagerHome />} />
-                    <Route path="/Hourlyemployee" element={<HourlyEmployeeHome />} />
-                    <Route path="/Salariedemployee" element={<SalariedEmployeeHome />} />
-                    <Route path="/CustomerHome" element={<CustomerHome />} />
-                    <Route path="/Employee/AddCustomer" element={<AddCustomer />} />
-                    <Route path="/Employee/CreateReceipt" element={<CreateReceipt />} />
-                    <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo />} />
-                    <Route path="/ManagerOptions/AddHourlyEmployee" element={<AddHourlyEmployee />} />
-                    <Route path="/ManagerOptions/EditHourlyEmployee/:employeeId" element={<EditHourlyEmployee />} />
-                    <Route path="/ManagerOptions/AddSalariedEmployee" element={<AddSalariedEmployee />} />
-                    <Route path="/ManagerOptions/EditSalariedEmployee/:employeeId" element={<EditSalariedEmployee />} />
-                    <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees />} />
-                    <Route path="/ManagerOptions/VerifyAttendance" element={<VerifyAttendance />} />
-                    <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee />} />
-                    <Route path="/ManagerOptions/AddNewItem" element={<AddNewItem />} />
-                    <Route path="/ManagerOptions/AddInventory" element={<AddInventory />} />
-                    <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories />} />
-                    <Route path="/ManagerOptions/StockReport" element={<StockReport />} />
-                    <Route path="/Customer/ViewReceipts" element={<ViewReceipts/>} />
-                    <Route path="/Customer/ViewCustomerInfo" element={<ViewCustomerInfo />} />
-                </Routes>
+            <div>
+                <WebsiteTitle/>
+                <Router>
+                    <div className="min-h-screen bg-gray-100 text-gray-900">
+                        <Routes>
+                            <Route path="/" element={<LoginPage/>}/>
+                            <Route path="/Register" element={<RegistrationPage/>}/>
+                            <Route path="/CreateStore" element={<CreateStore/>}/>
+                            <Route path="/CreateManager/:storeId" element={<CreateManager/>}/>
+                            <Route path="/Supervisor" element={<SupervisorHome/>}/>
+                            <Route path="/ManagerHome" element={<ManagerHome/>}/>
+                            <Route path="/Hourlyemployee" element={<HourlyEmployeeHome/>}/>
+                            <Route path="/Salariedemployee" element={<SalariedEmployeeHome/>}/>
+                            <Route path="/CustomerHome" element={<CustomerHome/>}/>
+                            <Route path="/Employee/AddCustomer" element={<AddCustomer/>}/>
+                            <Route path="/Employee/CreateReceipt" element={<CreateReceipt/>}/>
+                            <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo/>}/>
+                            <Route path="/ManagerOptions/AddHourlyEmployee" element={<AddHourlyEmployee/>}/>
+                            <Route path="/ManagerOptions/EditHourlyEmployee/:employeeId"
+                                   element={<EditHourlyEmployee/>}/>
+                            <Route path="/ManagerOptions/AddSalariedEmployee" element={<AddSalariedEmployee/>}/>
+                            <Route path="/ManagerOptions/EditSalariedEmployee/:employeeId"
+                                   element={<EditSalariedEmployee/>}/>
+                            <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees/>}/>
+                            <Route path="/ManagerOptions/VerifyAttendance" element={<VerifyAttendance/>}/>
+                            <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee/>}/>
+                            <Route path="/ManagerOptions/AddNewItem/:inventoryId/:category" element={<AddNewItem/>}/>
+                            <Route path="/ManagerOptions/EditInventory/:inventoryId" element={<EditInventory/>}/>
+                            <Route path="/ManagerOptions/AddInventory" element={<AddInventory/>}/>
+                            <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories/>}/>
+                            <Route path="/ManagerOptions/StockReport" element={<StockReport/>}/>
+                            <Route path="/Customer/ViewReceipts" element={<ViewReceipts/>}/>
+                            <Route path="/Customer/ViewCustomerInfo" element={<ViewCustomerInfo/>}/>
+                        </Routes>
+                    </div>
+                </Router>
             </div>
-        </Router>
-        </div>
         </AuthProvider>
     );
 }
