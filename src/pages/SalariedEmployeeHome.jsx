@@ -38,7 +38,7 @@ export function SalariedEmployeeHome() {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/salary`, {
+            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/salariedEmployee/${user.userId}`, {
                 params: { userId: user.userId }
             });
             setSalary(response.data);

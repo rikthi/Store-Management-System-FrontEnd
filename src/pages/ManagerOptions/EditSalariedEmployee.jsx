@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext.jsx";
 
 export function EditSalariedEmployee() {
     const { user } = useAuth();
     const { employeeId } = useParams();
+    const navigate = useNavigate();
 
     const [employee, setEmployee] = useState(null);
     const [salary, setSalary] = useState("");
@@ -17,7 +18,7 @@ export function EditSalariedEmployee() {
         const fetchSalariedEmployee = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/getSalariedEmployee`, {
+                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/salariedEmployee/${employeeId}`, {
                     params: { employeeId }
                 });
                 const data = response.data;
@@ -47,7 +48,7 @@ export function EditSalariedEmployee() {
         setSuccess("");
 
         try {
-            await axios.put(`http://localhost:8081/${user.storeId}/employees/update/salariedEmployee/${employeeId}`, {
+            await axios.put(`http://localhost:8081/${user.storeId}/employees/update/salariedEmployee`, {
                 employee: employee,
                 salary: parseFloat(salary)
             });
@@ -56,6 +57,19 @@ export function EditSalariedEmployee() {
             setError("Failed to update salaried employee.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        const confirmed = window.confirm("Are you sure you want to remove this employee?");
+        if (!confirmed) return;
+
+        try {
+            await axios.delete(`http://localhost:8081/${user.storeId}/employees/delete/${employeeId}`);
+            alert("Employee removed successfully.");
+            navigate("/ManagerOptions/ViewEmployees");
+        } catch (err) {
+            alert("Failed to remove employee.");
         }
     };
 
@@ -72,15 +86,51 @@ export function EditSalariedEmployee() {
 
                 {employee && (
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        <input type="text" value={employee.id} disabled className="w-full p-2 border rounded bg-gray-200" />
+                        <div>
+                            <label className="text-sm font-semibold">Employee ID</label>
+                            <input type="text" value={employee.id} disabled className="w-full p-2 border rounded bg-gray-200" />
+                        </div>
 
-                        <input type="text" name="name" value={employee.name} onChange={handleChange} placeholder="Name" className="w-full p-2 border rounded" required />
-                        <input type="text" name="gender" value={employee.gender} onChange={handleChange} placeholder="Gender" className="w-full p-2 border rounded" required />
-                        <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleChange} placeholder="Phone" className="w-full p-2 border rounded" required />
-                        <input type="date" name="dateOfBirth" value={employee.dateOfBirth} onChange={handleChange} className="w-full p-2 border rounded" required />
-                        <input type="email" name="emailAddress" value={employee.emailAddress} onChange={handleChange} placeholder="Email" className="w-full p-2 border rounded" required />
-                        <textarea name="address" value={employee.address} onChange={handleChange} placeholder="Address" className="w-full p-2 border rounded" required />
-                        <input type="number" name="supervisorId" value={employee.supervisorId || ""} onChange={handleChange} placeholder="Supervisor ID" className="w-full p-2 border rounded" />
+                        <div>
+                            <label className="text-sm font-semibold">Name</label>
+                            <input type="text" name="name" value={employee.name} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Gender</label>
+                            <input type="text" name="gender" value={employee.gender} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Phone Number</label>
+                            <input type="tel" name="phoneNumber" value={employee.phoneNumber} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Date of Birth</label>
+                            <input type="date" name="dateOfBirth" value={employee.dateOfBirth} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Email Address</label>
+                            <input type="email" name="emailAddress" value={employee.emailAddress} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Address</label>
+                            <textarea name="address" value={employee.address} onChange={handleChange} className="w-full p-2 border rounded" required />
+                        </div>
+
+                        <div>
+                            <label className="text-sm font-semibold">Supervisor ID</label>
+                            <input
+                                type="number"
+                                name="supervisorId"
+                                value={employee.supervisorId || ""}
+                                readOnly
+                                className="w-full p-2 border rounded bg-gray-200"
+                            />
+                        </div>
 
                         <div>
                             <label className="text-sm font-semibold">Salary</label>
@@ -89,6 +139,14 @@ export function EditSalariedEmployee() {
 
                         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
                             Update
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600 mt-2"
+                        >
+                            Remove Employee
                         </button>
                     </form>
                 )}

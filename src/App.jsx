@@ -4,7 +4,6 @@ import { WebsiteTitle } from './pages/WebsiteTitle.jsx';
 import {LoginPage} from "./pages/LoginPage";
 import {RegistrationPage} from "./pages/RegistrationPage";
 import {CreateManager} from "./pages/CreateManager";
-import {SupervisorHome} from "./pages/SupervisorHome";
 import {ManagerHome} from "./pages/ManagerHome.jsx";
 import {HourlyEmployeeHome} from "./pages/HourlyEmployeeHome.jsx";
 import {SalariedEmployeeHome} from "./pages/SalariedEmployeeHome.jsx";
@@ -20,7 +19,6 @@ import {ViewCategories} from "./pages/ManagerOptions/ViewCategories.jsx";
 import {StockReport} from "./pages/ManagerOptions/StockReport";
 import {ViewReceipts} from "./pages/Customer/ViewReceipts.jsx";
 import {ViewCustomerInfo} from "./pages/Customer/ViewCustomerInfo.jsx";
-import {EditEmployee} from "./pages/ManagerOptions/EditEmployee.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
 import {CreateStore} from "./pages/CreateStore.jsx";
@@ -30,6 +28,7 @@ import {VerifyAttendance} from "./pages/ManagerOptions/VerifyAttendance.jsx";
 import {AddInventory} from "./pages/ManagerOptions/AddInventory.jsx";
 import {EditInventory} from "./pages/ManagerOptions/EditInventory.jsx";
 import {OrderItem} from "./pages/ManagerOptions/OrderItem.jsx";
+import {StoreDetails} from "./pages/StoreDetails.jsx";
 
 
 
@@ -48,7 +47,7 @@ function App() {
                             <Route path="/Register" element={<RegistrationPage/>}/>
                             <Route path="/CreateStore" element={<CreateStore/>}/>
                             <Route path="/CreateManager/:storeId" element={<CreateManager/>}/>
-                            <Route path="/Supervisor" element={<SupervisorHome/>}/>
+                            <Route path="/StoreDetails" element={<StoreDetails/>}/>
                             <Route path="/ManagerHome" element={<ManagerHome/>}/>
                             <Route path="/Hourlyemployee" element={<HourlyEmployeeHome/>}/>
                             <Route path="/Salariedemployee" element={<SalariedEmployeeHome/>}/>
@@ -64,7 +63,6 @@ function App() {
                                    element={<EditSalariedEmployee/>}/>
                             <Route path="/ManagerOptions/ViewEmployees" element={<ViewEmployees/>}/>
                             <Route path="/ManagerOptions/VerifyAttendance" element={<VerifyAttendance/>}/>
-                            <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee/>}/>
                             <Route path="/ManagerOptions/AddNewItem/:inventoryId/:category" element={<AddNewItem/>}/>
                             <Route path="/ManagerOptions/EditInventory/:inventoryId" element={<EditInventory/>}/>
                             <Route path="/ManagerOptions/OrderItem/:itemId" element={<OrderItem />} />

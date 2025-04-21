@@ -10,7 +10,6 @@ export function ViewEmployees() {
     const [filterType, setFilterType] = useState("ALL");
     const navigate = useNavigate();
 
-    // Fetch based on filter
     useEffect(() => {
         const fetchEmployees = async () => {
             try {
@@ -21,13 +20,11 @@ export function ViewEmployees() {
                     response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listSalariedEmployees`);
                 } else if (filterType === "HOURLY_EMPLOYEE") {
                     response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listHourlyEmployees`);
-                } else if (filterType === "SUPERVISOR") {
-                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listSupervisors`);
                 }
                 setEmployees(response.data);
             } catch (error) {
                 console.error("Fetch error:", error);
-                setEmployees([]); // ✅ clear on error
+                setEmployees([]);
             }
         };
         fetchEmployees();
@@ -55,7 +52,6 @@ export function ViewEmployees() {
             <div className="absolute inset-0 bg-black opacity-50 -z-10" />
             <h1 className="text-3xl font-bold text-white mt-20 mb-6">View Employees</h1>
 
-            {/* Search + Filters */}
             <div className="flex flex-wrap justify-center items-center gap-4 mb-6 w-full max-w-6xl">
                 <input
                     type="text"
@@ -65,15 +61,14 @@ export function ViewEmployees() {
                     className="p-2 border rounded w-[60%] min-w-[250px]"
                 />
                 <div className="flex gap-2">
-                    {['ALL', 'SUPERVISOR', 'HOURLY_EMPLOYEE', 'SALARIED_EMPLOYEE'].map(type => (
+                    {['ALL', 'HOURLY_EMPLOYEE', 'SALARIED_EMPLOYEE'].map(type => (
                         <button
                             key={type}
                             onClick={() => setFilterType(type)}
                             className={`px-4 py-2 rounded-lg shadow-lg transition-transform duration-200 text-white ${
-                                type === 'SUPERVISOR' ? 'bg-red-500 hover:bg-red-600'
-                                    : type === 'HOURLY_EMPLOYEE' ? 'bg-green-500 hover:bg-green-600'
-                                        : type === 'SALARIED_EMPLOYEE' ? 'bg-yellow-500 hover:bg-yellow-600'
-                                            : 'bg-blue-500 hover:bg-blue-600'
+                                type === 'HOURLY_EMPLOYEE' ? 'bg-green-500 hover:bg-green-600'
+                                    : type === 'SALARIED_EMPLOYEE' ? 'bg-yellow-500 hover:bg-yellow-600'
+                                        : 'bg-blue-500 hover:bg-blue-600'
                             }`}
                         >
                             {type.replace('_', ' ')}
@@ -82,7 +77,6 @@ export function ViewEmployees() {
                 </div>
             </div>
 
-            {/* Table */}
             <div className="w-full max-w-6xl overflow-x-auto bg-white bg-opacity-90 p-4 rounded shadow">
                 <table className="w-full table-auto text-sm text-left">
                     <thead className="bg-gray-200">
@@ -97,7 +91,7 @@ export function ViewEmployees() {
                         <th className="px-4 py-2">Supervisor ID</th>
                         {filterType === "SALARIED_EMPLOYEE" && <th className="px-4 py-2">Salary</th>}
                         {filterType === "HOURLY_EMPLOYEE" && <th className="px-4 py-2">Pay Scale</th>}
-                        <th className="px-4 py-2">Action</th>
+                        {filterType !== "ALL" && <th className="px-4 py-2">Action</th>}
                     </tr>
                     </thead>
                     <tbody>
@@ -119,14 +113,16 @@ export function ViewEmployees() {
                                 {filterType === "HOURLY_EMPLOYEE" && (
                                     <td className="px-4 py-2">{emp.payScale}</td>
                                 )}
-                                <td className="px-4 py-2">
-                                    <button
-                                        onClick={() => handleViewDetails(emp)}
-                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-800"
-                                    >
-                                        Edit
-                                    </button>
-                                </td>
+                                {filterType !== "ALL" && (
+                                    <td className="px-4 py-2">
+                                        <button
+                                            onClick={() => handleViewDetails(emp)}
+                                            className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-800"
+                                        >
+                                            Edit
+                                        </button>
+                                    </td>
+                                )}
                             </tr>
                         );
                     })}

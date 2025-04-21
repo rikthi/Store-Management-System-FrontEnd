@@ -7,11 +7,12 @@ export function VerifyAttendance() {
     const [attendances, setAttendances] = useState([]);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState("");
+    const [verifyingId, setVerifyingId] = useState(null);
 
     useEffect(() => {
         const fetchAttendance = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/attendance/list`);
+                const response = await axios.get(`http://localhost:8081/${user.storeId}/attendance`);
                 setAttendances(response.data);
             } catch (err) {
                 setError("Failed to load attendance records.");
@@ -21,27 +22,39 @@ export function VerifyAttendance() {
     }, [user.storeId]);
 
     const handleVerify = async (attendanceId) => {
+        const attendance = attendances.find(a => a.id === attendanceId);
+        if (!attendance) return;
+
+        const updatedAttendance = {
+            ...attendance,
+            isVerified: true,
+            verifierId: user.userId
+        };
+
+        setVerifyingId(attendanceId);
         try {
-            await axios.put(`http://localhost:8081/${user.storeId}/attendance/verify`, {
-                id: attendanceId,
-                isVerified: true,
-                verifierId: user.userId,
-            });
+            await axios.put(
+                `http://localhost:8081/${user.storeId}/attendance/verify`,
+                updatedAttendance
+            );
+
             setSuccess(`Attendance ${attendanceId} verified successfully!`);
             setAttendances((prev) =>
                 prev.map((a) =>
-                    a.id === attendanceId ? { ...a, isVerified: true, verifierId: user.userId } : a
+                    a.id === attendanceId ? { ...updatedAttendance } : a
                 )
             );
         } catch (err) {
             setError("Verification failed.");
+        } finally {
+            setVerifyingId(null);
         }
     };
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
              style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}>
-            <h1 className="text-2xl font-bold mb-4 text-gray-800">Verify Attendance</h1>
+            <h1 className="text-2xl font-bold mb-4 text-white">Verify Attendance</h1>
 
             {error && <p className="text-red-500 mb-4">{error}</p>}
             {success && <p className="text-green-600 mb-4">{success}</p>}
@@ -72,9 +85,10 @@ export function VerifyAttendance() {
                                 {!a.isVerified && (
                                     <button
                                         onClick={() => handleVerify(a.id)}
-                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700"
+                                        disabled={verifyingId === a.id}
+                                        className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50"
                                     >
-                                        Verify
+                                        {verifyingId === a.id ? "Verifying..." : "Verify"}
                                     </button>
                                 )}
                             </td>

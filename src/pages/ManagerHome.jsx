@@ -9,9 +9,9 @@ export function ManagerHome() {
             className="page-background"
             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
         >
-            <div className="absolute inset-0 bg-black opacity-60"></div>
+            <div className="absolute inset-0 bg-black opacity-20"></div>
 
-            <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-75 p-8 rounded-lg shadow-lg">
+            <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">
                 <h1 className="text-3xl font-bold text-gray-800">Manager Dashboard</h1>
 
                 {/* Buttons */}
@@ -21,6 +21,11 @@ export function ManagerHome() {
                         className="btn-primary"
                     >
                         View Personal Information
+                    </button>
+                    <button
+                        onClick={() => navigate("/StoreDetails")}
+                    >
+                        View Store Details
                     </button>
 
                     <button

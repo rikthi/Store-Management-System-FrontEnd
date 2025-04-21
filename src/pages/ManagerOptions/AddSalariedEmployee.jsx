@@ -55,7 +55,7 @@ export function AddSalariedEmployee() {
                 salary: parseFloat(salary)
             });
 
-            setSuccess("Employee added successfully!");
+            setSuccess(`Employee added successfully!`);
             setEmployeeData({
                 id: "",
                 name: "",

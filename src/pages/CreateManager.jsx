@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 
 export function CreateManager() {
-    const { storeId } = useParams(); // storeId from URL
+    const { storeId } = useParams();
     const [managerData, setManagerData] = useState({
         employee: {
             id: "",
@@ -39,7 +39,6 @@ export function CreateManager() {
         setError("");
         setSuccess("");
 
-        // Inject storeId before submitting
         const payload = {
             ...managerData,
             employee: {
@@ -97,7 +96,6 @@ export function CreateManager() {
                         </div>
                     ))}
 
-                    {/* Gender Dropdown */}
                     <div>
                         <label className="block text-sm font-semibold text-gray-700">Gender</label>
                         <select
@@ -122,7 +120,17 @@ export function CreateManager() {
                 </form>
 
                 {error && <p className="text-red-500 mt-4">{error}</p>}
-                {success && <p className="text-green-600 mt-4 font-semibold">{success}</p>}
+                {success && (
+                    <>
+                        <p className="text-green-600 mt-4 font-semibold">{success}</p>
+                        <Link
+                            to="/register"
+                            className="block mt-4 w-full text-center bg-purple-600 text-white py-2 rounded hover:bg-purple-700 transition"
+                        >
+                            Go to Registration Page
+                        </Link>
+                    </>
+                )}
             </div>
         </div>
     );

@@ -8,7 +8,6 @@ export function HourlyEmployeeHome() {
     const navigate = useNavigate();
     const { user } = useAuth();
 
-    const [attendanceId, setAttendanceId] = useState(null);
     const [personalDetails] = useState(null);
     const [payScale, setPayScale] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -39,14 +38,13 @@ export function HourlyEmployeeHome() {
             return () => clearTimeout(timer);
         }
     }, [error]);
-    const fetchSalary = async () => {
+    const fetchPayScale = async () => {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/pay-scale`, {
-                params: { userId: user.userId }
+            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/hourlyEmployee/${user.userId}`, {
             });
-            setPayScale(response.data);
+            setPayScale(response.data.payScale);
         } catch (err) {
             setError("Failed to fetch pay scale");
         } finally {
@@ -68,7 +66,6 @@ export function HourlyEmployeeHome() {
                 punchOutTime: null,
                 isVerified: false,
             });
-            setAttendanceId(response.data); // Save ID for punch-out
             alert("Punch In recorded.");
         } catch (err) {
             alert("Failed to record Punch In.");
@@ -80,10 +77,6 @@ export function HourlyEmployeeHome() {
         const confirmed = window.confirm(`Confirm Punch Out at ${timestamp}?`);
         if (!confirmed) return;
 
-        if (!attendanceId) {
-            alert("Error: You must punch in before punching out.");
-            return;
-        }
 
         try {
             await axios.put(`http://localhost:8081/${user.storeId}/attendance/punchOut`, {
@@ -91,7 +84,6 @@ export function HourlyEmployeeHome() {
                 punchOutTime: timestamp,
             });
             alert("Punch Out recorded.");
-            setAttendanceId(null); // Clear after punch-out
         } catch (err) {
             alert("Failed to record Punch Out.");
         }
@@ -110,7 +102,7 @@ export function HourlyEmployeeHome() {
                     <button onClick={() => navigate("/Employee/ViewEmployeeInfo")} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
                         View Personal Information
                     </button>
-                    <button onClick={fetchSalary} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+                    <button onClick={fetchPayScale} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
                         View Pay Scale
                     </button>
                     <button onClick={punchIn} className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition">
@@ -145,10 +137,10 @@ export function HourlyEmployeeHome() {
                     </div>
                 )}
 
-                {payScale && (
+                {payScale !== null && (
                     <div className="mt-6 w-full max-w-md bg-white p-4 rounded-lg shadow-md">
-                        <h2 className="text-xl font-semibold mb-4">Salary</h2>
-                        <p><strong>Hourly Rate:</strong> ${payScale.hourlyScale}</p>
+                        <h2 className="text-xl font-semibold mb-4">Pay Scale</h2>
+                        <p><strong>Hourly Rate:</strong> ${payScale}</p>
                     </div>
                 )}
             </div>

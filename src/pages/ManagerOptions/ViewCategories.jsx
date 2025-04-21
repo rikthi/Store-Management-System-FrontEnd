@@ -17,7 +17,7 @@ export function ViewCategories() {
                 const response = await axios.get(`http://localhost:8081/${user.storeId}/inventory/listAllInventories`);
                 setCategories(response.data);
                 if (response.data.length > 0) {
-                    setSelectedInventory(response.data[0]); // Default to first inventory
+                    setSelectedInventory(response.data[0]);
                 }
             } catch (err) {
                 console.error("Failed to load categories", err);
@@ -91,8 +91,14 @@ export function ViewCategories() {
                 >
                     Edit Inventory
                 </button>
-            </div>
 
+                <button
+                    onClick={() => navigate("/ManagerHome")}
+                    className="mt-2 w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition"
+                >
+                    Home Page
+                </button>
+            </div>
 
             {/* Item Table */}
             <div className="w-4/5 p-6">
@@ -103,11 +109,11 @@ export function ViewCategories() {
                     <p>Loading items...</p>
                 ) : (
                     <table className="w-full table-auto bg-white bg-opacity-90 rounded shadow">
-                        <thead className="bg-gray-200" align={"left"}>
+                        <thead className="bg-gray-200" align="left">
                         <tr>
                             <th className="p-2">Name</th>
                             <th className="p-2">Price</th>
-                            <th className="p-2 text-centre">Discount</th>
+                            <th className="p-2">Discount</th>
                             <th className="p-2">In Stock</th>
                             <th className="p-2">Expiration Date</th>
                             <th className="p-2">Action</th>
@@ -134,7 +140,7 @@ export function ViewCategories() {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="5" className="text-center py-4 text-gray-500">
+                                <td colSpan="6" className="text-center py-4 text-gray-500">
                                     No items found.
                                 </td>
                             </tr>

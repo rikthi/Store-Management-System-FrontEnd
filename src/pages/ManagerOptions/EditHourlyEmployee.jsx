@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../AuthContext.jsx";
 
 export function EditHourlyEmployee() {
     const { user } = useAuth();
     const { employeeId } = useParams();
+    const navigate = useNavigate();
 
     const [employee, setEmployee] = useState(null);
     const [payScale, setPayScale] = useState("");
@@ -18,15 +19,14 @@ export function EditHourlyEmployee() {
             setLoading(true);
             try {
                 const response = await axios.get(
-                    `http://localhost:8081/${user.storeId}/employees/getHourlyEmployee`,
-                    { params: { employeeId: parseInt(employeeId) } }
+                    `http://localhost:8081/${user.storeId}/employees/get/hourlyEmployee/${employeeId}`,
+                    { params: { employeeId } }
                 );
-
-                const data = response.data[0];
+                const data = response.data;
                 const emp = data.employee;
                 emp.dateOfBirth = emp.dateOfBirth?.slice(0, 10) || "";
                 setEmployee(emp);
-                setPayScale(data["pay scale"]);
+                setPayScale(data.payScale);
             } catch (err) {
                 console.error("Error fetching hourly employee:", err);
                 setError("Failed to fetch employee details.");
@@ -48,9 +48,15 @@ export function EditHourlyEmployee() {
         setError("");
         setSuccess("");
 
+        if (parseFloat(payScale) < 0) {
+            setError("Pay scale cannot be negative.");
+            setLoading(false);
+            return;
+        }
+
         try {
             await axios.put(
-                `http://localhost:8081/${user.storeId}/employees/update/hourly/${employeeId}`,
+                `http://localhost:8081/${user.storeId}/employees/update/hourlyEmployee`,
                 {
                     employee: employee,
                     payScale: parseFloat(payScale)
@@ -62,6 +68,20 @@ export function EditHourlyEmployee() {
             setError("Failed to update hourly employee.");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async () => {
+        const confirmed = window.confirm("Are you sure you want to remove this employee?");
+        if (!confirmed) return;
+
+        try {
+            await axios.delete(`http://localhost:8081/${user.storeId}/employees/delete/${employeeId}`);
+            alert("Employee removed successfully.");
+            navigate("/ManagerOptions/ViewEmployees");
+        } catch (err) {
+            console.error("Error deleting employee:", err);
+            alert("Failed to remove employee.");
         }
     };
 
@@ -115,7 +135,13 @@ export function EditHourlyEmployee() {
 
                         <div>
                             <label className="text-sm font-semibold">Supervisor ID</label>
-                            <input type="number" name="supervisorId" value={employee.supervisorId || ""} onChange={handleChange} className="w-full p-2 border rounded" />
+                            <input
+                                type="number"
+                                name="supervisorId"
+                                value={employee.supervisorId || ""}
+                                readOnly
+                                className="w-full p-2 border rounded bg-gray-200"
+                            />
                         </div>
 
                         <div>
@@ -125,6 +151,14 @@ export function EditHourlyEmployee() {
 
                         <button type="submit" className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600">
                             Update
+                        </button>
+
+                        <button
+                            type="button"
+                            onClick={handleDelete}
+                            className="w-full bg-red-500 text-white p-2 rounded hover:bg-red-600 mt-2"
+                        >
+                            Remove Employee
                         </button>
                     </form>
                 )}
