@@ -29,6 +29,7 @@ import {EditSalariedEmployee} from "./pages/ManagerOptions/EditSalariedEmployee.
 import {VerifyAttendance} from "./pages/ManagerOptions/VerifyAttendance.jsx";
 import {AddInventory} from "./pages/ManagerOptions/AddInventory.jsx";
 import {EditInventory} from "./pages/ManagerOptions/EditInventory.jsx";
+import {OrderItem} from "./pages/ManagerOptions/OrderItem.jsx";
 
 
 
@@ -66,6 +67,7 @@ function App() {
                             <Route path="/ManagerOptions/EditEmployee/:employeeId" element={<EditEmployee/>}/>
                             <Route path="/ManagerOptions/AddNewItem/:inventoryId/:category" element={<AddNewItem/>}/>
                             <Route path="/ManagerOptions/EditInventory/:inventoryId" element={<EditInventory/>}/>
+                            <Route path="/ManagerOptions/OrderItem/:itemId" element={<OrderItem />} />
                             <Route path="/ManagerOptions/AddInventory" element={<AddInventory/>}/>
                             <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories/>}/>
                             <Route path="/ManagerOptions/StockReport" element={<StockReport/>}/>

@@ -47,7 +47,7 @@ export function ViewCategories() {
     }, [selectedInventory]);
 
     const handleOrder = (itemId) => {
-        navigate(`/OrderItem/${itemId}`);
+        navigate(`/ManagerOptions/OrderItem/${itemId}`);
     };
 
     const handleAddNewItem = () => {
@@ -85,7 +85,7 @@ export function ViewCategories() {
                 </button>
 
                 <button
-                    onClick={() => navigate(`/ManagerOptions/EditInventory/${selectedInventory.id}`)}
+                    onClick={() => navigate(`/ManagerOptions/EditInventory/${selectedInventory.id}/`)}
                     disabled={!selectedInventory}
                     className="mt-2 w-full bg-yellow-500 text-white py-2 rounded hover:bg-yellow-600 transition"
                 >

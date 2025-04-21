@@ -63,9 +63,10 @@ export function EditInventory() {
         setLoading(true);
         try {
             await axios.put(
-                `http://localhost:8081/${user.storeId}/inventory/${inventoryId}/update`,
+                `http://localhost:8081/${user.storeId}/inventory/updateInventory`,
                 {
                     ...inventoryData,
+                    id: inventoryId,
                     minimumStockLevel: min,
                     maximumStockLevel: max,
                 }
@@ -87,28 +88,71 @@ export function EditInventory() {
 
                 {inventoryData ? (
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        {[
-                            { label: "Inventory ID", name: "id", readOnly: true },
-                            { label: "Category", name: "category", readOnly: true },
-                            { label: "Quantity (Current Stock Level)", name: "currentStockLevel", readOnly: true },
-                            { label: "Minimum Stock Level", name: "minimumStockLevel", readOnly: false },
-                            { label: "Maximum Stock Level", name: "maximumStockLevel", readOnly: false }
-                        ].map(({ label, name, readOnly }) => (
-                            <div key={name}>
-                                <label className="block text-sm font-semibold mb-1">{label}</label>
-                                <input
-                                    type="number"
-                                    name={name}
-                                    value={inventoryData[name]}
-                                    onChange={handleChange}
-                                    readOnly={readOnly}
-                                    min={name.includes("StockLevel") ? 0 : undefined}
-                                    className={`w-full p-2 border rounded ${readOnly ? "bg-gray-200" : ""}`}
-                                    required
-                                />
-                            </div>
-                        ))}
+                        {/* ID */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">Inventory ID</label>
+                            <input
+                                type="text"
+                                name="id"
+                                value={inventoryData.id}
+                                readOnly
+                                className="w-full p-2 border rounded bg-gray-200"
+                            />
+                        </div>
 
+                        {/* Category */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">Category</label>
+                            <input
+                                type="text"
+                                name="category"
+                                value={inventoryData.category}
+                                readOnly
+                                className="w-full p-2 border rounded bg-gray-200"
+                            />
+                        </div>
+
+                        {/* Quantity */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">Quantity (Current Stock Level)</label>
+                            <input
+                                type="number"
+                                name="currentStockLevel"
+                                value={inventoryData.currentStockLevel}
+                                readOnly
+                                className="w-full p-2 border rounded bg-gray-200"
+                            />
+                        </div>
+
+                        {/* Min */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">Minimum Stock Level</label>
+                            <input
+                                type="number"
+                                name="minimumStockLevel"
+                                value={inventoryData.minimumStockLevel}
+                                onChange={handleChange}
+                                min={0}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
+                        </div>
+
+                        {/* Max */}
+                        <div>
+                            <label className="block text-sm font-semibold mb-1">Maximum Stock Level</label>
+                            <input
+                                type="number"
+                                name="maximumStockLevel"
+                                value={inventoryData.maximumStockLevel}
+                                onChange={handleChange}
+                                min={0}
+                                className="w-full p-2 border rounded"
+                                required
+                            />
+                        </div>
+
+                        {/* Button */}
                         <button
                             type="submit"
                             disabled={loading}
