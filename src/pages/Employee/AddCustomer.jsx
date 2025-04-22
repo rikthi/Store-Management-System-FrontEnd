@@ -6,10 +6,11 @@ export function AddCustomer() {
     const { user } = useAuth(); // Access the logged-in employee with storeId
 
     const [customer, setCustomer] = useState({
+        id: "",
         name: "",
         email: "",
-        customerId: "",
-        membershipType: "bronze",
+        membershipType: "BRONZE",
+        storeId: user.storeId,
     });
 
     const [loading, setLoading] = useState(false);
@@ -29,14 +30,15 @@ export function AddCustomer() {
         setSuccess("");
 
         try {
-            await axios.post(`http://localhost:8080/${user.storeId}/customers`, customer);
-            setSuccess("Customer added successfully!");
+            await axios.post(`http://localhost:8081/${user.storeId}/customer/create`, customer);
             setCustomer({
+                id: "",
                 name: "",
                 email: "",
-                customerId: "",
                 membershipType: "",
+                storeId: user.storeId,
             });
+            setSuccess("Customer added successfully!");
         } catch (err) {
             setError("Error adding customer. Please try again.");
         } finally {
@@ -76,24 +78,15 @@ export function AddCustomer() {
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
                     />
-                    <input
-                        type="text"
-                        name="customerId"
-                        value={customer.customerId}
-                        onChange={handleChange}
-                        placeholder="Customer ID"
-                        className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
                     <select
                         name="membershipType"
                         value={customer.membershipType}
                         onChange={handleChange}
                         className="w-full p-3 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
                     >
-                        <option value="bronze">Bronze</option>
-                        <option value="silver">Silver</option>
-                        <option value="gold">Gold</option>
+                        <option value="BRONZE">Bronze</option>
+                        <option value="SILVER">Silver</option>
+                        <option value="GOLD">Gold</option>
                     </select>
 
                     <button

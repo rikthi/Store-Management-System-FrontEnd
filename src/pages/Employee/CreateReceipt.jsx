@@ -6,11 +6,11 @@ export function CreateReceipt() {
     const { user } = useAuth(); // Get employee info (assuming employeeId is stored in user.username)
 
     const [receipt, setReceipt] = useState({
+        id: "",
+        dateOfTransaction: "",
+        cardNo: "",
+        totalAmount: "",
         customerId: "",
-        receiptId: "",
-        totalPrice: "",
-        date: "",
-        cardNumber: "",
     });
 
     const [loading, setLoading] = useState(false);
@@ -27,27 +27,22 @@ export function CreateReceipt() {
         setError("");
         setSuccess("");
 
-        if (parseFloat(receipt.totalPrice) < 0) {
+        if (parseFloat(receipt.totalAmount) < 0) {
             setError("Total price cannot be negative.");
             setLoading(false);
             return;
         }
 
         try {
-            const response = await axios.post(`http://localhost:8080/${user.storeId}/receipts`, receipt);
-
-            if (response.status === 201) {
+            await axios.post(`http://localhost:8081/${user.storeId}/customer/receipt/create`, receipt);
                 setSuccess("Receipt added successfully!");
                 setReceipt({
+                    id: "",
+                    dateOfTransaction: "",
+                    cardNo: "",
+                    totalAmount: "",
                     customerId: "",
-                    receiptId: "",
-                    totalPrice: "",
-                    date: "",
-                    cardNumber: "",
                 });
-            } else {
-                setError("Failed to add receipt.");
-            }
         } catch (err) {
             setError("Error adding receipt. Please try again.");
         } finally {
@@ -77,20 +72,11 @@ export function CreateReceipt() {
                     />
 
                     <input
-                        type="text"
-                        name="receiptId"
-                        placeholder="Receipt ID"
-                        value={receipt.receiptId}
-                        onChange={handleChange}
-                        className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        required
-                    />
-
-                    <input
                         type="number"
-                        name="totalPrice"
+                        name="totalAmount"
                         placeholder="Total Price"
-                        value={receipt.totalPrice}
+                        value={receipt.totalAmount}
+                        step= {0.01}
                         onChange={handleChange}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         min="0"
@@ -99,8 +85,8 @@ export function CreateReceipt() {
 
                     <input
                         type="date"
-                        name="date"
-                        value={receipt.date}
+                        name="dateOfTransaction"
+                        value={receipt.dateOfTransaction}
                         onChange={handleChange}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required
@@ -108,9 +94,11 @@ export function CreateReceipt() {
 
                     <input
                         type="text"
-                        name="cardNumber"
+                        name="cardNo"
                         placeholder="Card Number"
-                        value={receipt.cardNumber}
+                        maxLength={16}
+                        value={receipt.cardNo}
+                        pattern="\d{16}"
                         onChange={handleChange}
                         className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         required

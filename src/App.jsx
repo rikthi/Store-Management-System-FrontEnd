@@ -17,8 +17,7 @@ import {ViewEmployees} from "./pages/ManagerOptions/ViewEmployees.jsx";
 import {AddNewItem} from "./pages/ManagerOptions/AddNewItem.jsx";
 import {ViewCategories} from "./pages/ManagerOptions/ViewCategories.jsx";
 import {StockReport} from "./pages/ManagerOptions/StockReport";
-import {ViewReceipts} from "./pages/Customer/ViewReceipts.jsx";
-import {ViewCustomerInfo} from "./pages/Customer/ViewCustomerInfo.jsx";
+import {ViewReceipts} from "./pages/Employee/ViewReceipts.jsx";
 import "./index.css";
 import {AuthProvider} from "./pages/AuthContext.jsx";
 import {CreateStore} from "./pages/CreateStore.jsx";
@@ -29,6 +28,7 @@ import {AddInventory} from "./pages/ManagerOptions/AddInventory.jsx";
 import {EditInventory} from "./pages/ManagerOptions/EditInventory.jsx";
 import {OrderItem} from "./pages/ManagerOptions/OrderItem.jsx";
 import {StoreDetails} from "./pages/StoreDetails.jsx";
+import {ViewCustomers} from "./pages/Employee/ViewCustomers.jsx";
 
 
 
@@ -51,10 +51,11 @@ function App() {
                             <Route path="/ManagerHome" element={<ManagerHome/>}/>
                             <Route path="/Hourlyemployee" element={<HourlyEmployeeHome/>}/>
                             <Route path="/Salariedemployee" element={<SalariedEmployeeHome/>}/>
-                            <Route path="/CustomerHome" element={<CustomerHome/>}/>
                             <Route path="/Employee/AddCustomer" element={<AddCustomer/>}/>
                             <Route path="/Employee/CreateReceipt" element={<CreateReceipt/>}/>
                             <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo/>}/>
+                            <Route path="/Employee/ViewReceipts/:customerId" element={<ViewReceipts/>}/>
+                            <Route path="/Employee/ViewCustomers" element={<ViewCustomers/>}/>
                             <Route path="/ManagerOptions/AddHourlyEmployee" element={<AddHourlyEmployee/>}/>
                             <Route path="/ManagerOptions/EditHourlyEmployee/:employeeId"
                                    element={<EditHourlyEmployee/>}/>
@@ -69,8 +70,7 @@ function App() {
                             <Route path="/ManagerOptions/AddInventory" element={<AddInventory/>}/>
                             <Route path="/ManagerOptions/ViewCategories" element={<ViewCategories/>}/>
                             <Route path="/ManagerOptions/StockReport" element={<StockReport/>}/>
-                            <Route path="/Customer/ViewReceipts" element={<ViewReceipts/>}/>
-                            <Route path="/Customer/ViewCustomerInfo" element={<ViewCustomerInfo/>}/>
+
                         </Routes>
                     </div>
                 </Router>

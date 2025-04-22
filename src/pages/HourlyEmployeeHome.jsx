@@ -105,6 +105,12 @@ export function HourlyEmployeeHome() {
                     <button onClick={fetchPayScale} className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
                         View Pay Scale
                     </button>
+                    <button
+                        onClick={() => navigate("/StoreDetails")}
+                        className="btn-primary"
+                    >
+                        View Store Details
+                    </button>
                     <button onClick={punchIn} className="w-full bg-green-500 text-white p-3 rounded-lg hover:bg-green-600 transition">
                         Punch In
                     </button>
@@ -113,6 +119,9 @@ export function HourlyEmployeeHome() {
                     </button>
                     <button onClick={() => navigate("/Employee/AddCustomer")} className="w-full bg-yellow-500 text-white p-3 rounded-lg hover:bg-yellow-600 transition">
                         Add a Customer
+                    </button>
+                    <button onClick={() => navigate("/Employee/ViewCustomers")} className="w-full bg-yellow-500 text-white p-3 rounded-lg hover:bg-yellow-600 transition">
+                        View Customers
                     </button>
                     <button onClick={() => navigate("/Employee/CreateReceipt")} className="w-full bg-purple-500 text-white p-3 rounded-lg hover:bg-purple-600 transition">
                         Create Receipt

@@ -24,6 +24,7 @@ export function ManagerHome() {
                     </button>
                     <button
                         onClick={() => navigate("/StoreDetails")}
+                        className="btn-primary"
                     >
                         View Store Details
                     </button>

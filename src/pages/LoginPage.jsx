@@ -28,7 +28,7 @@ export function LoginPage() {
             else if (role === "HOURLY_EMPLOYEE") navigate("/HourlyEmployee");
             else if (role === "SALARIED_EMPLOYEE") navigate("/SalariedEmployee");
             else if (role === "CUSTOMER") navigate("/CustomerHome");
-            else setError("Unknown role");
+            else setError("Wrong Credentials");
 
         } catch (err) {
             setError(err.message("Invalid username or password"));

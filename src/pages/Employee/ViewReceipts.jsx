@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useAuth } from "../AuthContext";
+import { useAuth } from "../AuthContext.jsx";
+import {useParams} from "react-router-dom";
 
 export function ViewReceipts() {
+    const { customerId } = useParams();
     const { user } = useAuth(); // Get customer ID from AuthContext
     const [receipts, setReceipts] = useState([]);
     const [error, setError] = useState("");
@@ -10,17 +12,18 @@ export function ViewReceipts() {
     useEffect(() => {
         const fetchReceipts = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/${user.storeId}/receipts/customer`, {
-                    params: { customerId: user.userId },
-                });
+                const response = await axios.get(
+                    `http://localhost:8081/${user.storeId}/customer/receipt/get/${customerId}`
+                );
                 setReceipts(response.data);
             } catch (err) {
-                setError(err.message("Failed to fetch receipts."));
+                setError("Failed to fetch receipts.");
             }
         };
 
-        fetchReceipts();
-    }, [user]);
+        if (customerId) fetchReceipts(); // Only call if valid customerId
+    }, [customerId, user.storeId]); // Dependency should match usage
+
 
     return (
         <div
@@ -29,22 +32,21 @@ export function ViewReceipts() {
         >
             <div className="absolute inset-0 bg-black opacity-50 -z-10"></div>
             <div className="relative z-10 w-full max-w-3xl">
-                <h1 className="text-3xl font-bold text-white mb-8 text-center">Your Receipts</h1>
+                <h1 className="text-3xl font-bold text-white mb-8 text-center">Receipts of Customer ID: {customerId}</h1>
 
                 {error && <p className="text-red-500 text-center mb-4">{error}</p>}
 
                 <div className="space-y-4">
                     {receipts.map((receipt) => (
                         <div
-                            key={receipt.receiptId}
-                            className="bg-white rounded-lg p-6 shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
+                            key={receipt.id}
+                            className="bg-gray-300 bg-opacity-80 rounded-lg p-6 shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
                         >
-                            <p><strong>Receipt ID:</strong> {receipt.receiptId}</p>
+                            <p><strong>Receipt ID:</strong> {receipt.id}</p>
                             <p><strong>Customer ID:</strong> {receipt.customerId}</p>
-                            <p><strong>Employee ID:</strong> {receipt.employeeId}</p>
-                            <p><strong>Total Price:</strong> ${receipt.totalPrice}</p>
-                            <p><strong>Card Number:</strong> **** **** **** {receipt.cardNumber.slice(-4)}</p>
-                            <p><strong>Date:</strong> {receipt.date}</p>
+                            <p><strong>Total Price:</strong> ${receipt.totalAmount}</p>
+                            <p><strong>Card Number:</strong> **** **** **** {receipt.cardNo.slice(-4)}</p>
+                            <p><strong>Date:</strong> {receipt.dateOfTransaction}</p>
                         </div>
                     ))}
 
