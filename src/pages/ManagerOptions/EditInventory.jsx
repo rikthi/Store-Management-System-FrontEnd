@@ -81,7 +81,7 @@ export function EditInventory() {
 
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
-             style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}>
+             style={{ backgroundImage: "url('../../../src/assets/loginBg.jpg')" }}>
             <div className="absolute inset-0 bg-black opacity-50" />
             <div className="relative z-10 bg-white bg-opacity-80 p-8 rounded-lg shadow-md w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Edit Inventory</h2>

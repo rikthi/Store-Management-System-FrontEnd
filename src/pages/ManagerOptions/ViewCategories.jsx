@@ -60,7 +60,7 @@ export function ViewCategories() {
             style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}
         >
             {/* Sidebar */}
-            <div className="w-1/5 bg-white bg-opacity-80 shadow-md p-4">
+            <div className="w-1/5 bg-white bg-opacity-80 rounded-lg shadow-md p-4">
                 <h2 className="text-xl font-bold mb-4">Categories</h2>
                 <ul className="space-y-2">
                     {categories.map((inv) => (

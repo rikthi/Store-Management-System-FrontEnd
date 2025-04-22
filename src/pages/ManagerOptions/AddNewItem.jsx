@@ -57,7 +57,7 @@ export function AddNewItem() {
         try {
             await axios.post(`http://localhost:8081/${user.storeId}/inventory/${inventoryId}/addItem`, payload);
             setSuccess("Item added successfully!");
-            setTimeout(() => navigate("/ManagerOptions/ViewCategories"), 2000);
+            setTimeout(() => navigate("/ManagerOptions/ViewCategories"), 1500);
         } catch (err) {
             setError("Failed to add item.");
         } finally {
@@ -68,8 +68,7 @@ export function AddNewItem() {
     return (
         <div
             className="flex flex-col items-center justify-center min-h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url('../../src/assets/loginBg.jpg')" }}
-        >
+            style={{ backgroundImage: "url('../../../src/assets/loginBg.jpg')" }}>
             <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
                 <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Add New Item</h2>
 

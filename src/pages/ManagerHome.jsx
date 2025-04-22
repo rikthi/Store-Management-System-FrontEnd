@@ -23,6 +23,12 @@ export function ManagerHome() {
                         View Personal Information
                     </button>
                     <button
+                        onClick={() => navigate("/ManagerOptions/EditManagerInformation")}
+                        className="btn-primary"
+                    >
+                        Edit Personal Information
+                    </button>
+                    <button
                         onClick={() => navigate("/StoreDetails")}
                         className="btn-primary"
                     >

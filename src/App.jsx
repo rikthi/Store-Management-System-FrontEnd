@@ -29,6 +29,7 @@ import {EditInventory} from "./pages/ManagerOptions/EditInventory.jsx";
 import {OrderItem} from "./pages/ManagerOptions/OrderItem.jsx";
 import {StoreDetails} from "./pages/StoreDetails.jsx";
 import {ViewCustomers} from "./pages/Employee/ViewCustomers.jsx";
+import {EditManagerInformation} from "./pages/ManagerOptions/EditManagerInformation.jsx";
 
 
 
@@ -56,6 +57,7 @@ function App() {
                             <Route path="/Employee/ViewEmployeeInfo" element={<ViewEmployeeInfo/>}/>
                             <Route path="/Employee/ViewReceipts/:customerId" element={<ViewReceipts/>}/>
                             <Route path="/Employee/ViewCustomers" element={<ViewCustomers/>}/>
+                            <Route path="/ManagerOptions/EditManagerInformation" element={<EditManagerInformation/>}/>
                             <Route path="/ManagerOptions/AddHourlyEmployee" element={<AddHourlyEmployee/>}/>
                             <Route path="/ManagerOptions/EditHourlyEmployee/:employeeId"
                                    element={<EditHourlyEmployee/>}/>
