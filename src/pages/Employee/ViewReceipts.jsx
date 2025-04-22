@@ -40,7 +40,7 @@ export function ViewReceipts() {
                     {receipts.map((receipt) => (
                         <div
                             key={receipt.id}
-                            className="bg-gray-300 bg-opacity-80 rounded-lg p-6 shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
+                            className="bg-white bg-opacity-90 rounded-lg p-6 shadow-md transition-transform transform hover:scale-105 hover:shadow-lg"
                         >
                             <p><strong>Receipt ID:</strong> {receipt.id}</p>
                             <p><strong>Customer ID:</strong> {receipt.customerId}</p>

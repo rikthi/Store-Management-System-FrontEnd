@@ -213,7 +213,7 @@ export function StockReport() {
                                 const expiryDate = new Date(item.expirationDate);
                                 const daysLeft = Math.ceil((expiryDate - now) / (1000 * 60 * 60 * 24));
                                 return (
-                                    <div key={item.id} className="text-center border rounded-full p-6 shadow-md">
+                                    <div key={item.id} className="bg-white text-center border-5 rounded-full p-6 shadow-md">
                                         <p className="font-bold text-lg">{item.name}</p>
                                         <p className={daysLeft <= 0 ? "text-red-600 font-semibold" : "text-yellow-600 font-semibold"}>
                                             {daysLeft <= 0 ? "Expired" : `${daysLeft} days left`}
