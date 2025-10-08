@@ -15,11 +15,11 @@ export function ViewEmployees() {
             try {
                 let response;
                 if (filterType === "ALL") {
-                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees`);
+                    response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees`);
                 } else if (filterType === "SALARIED_EMPLOYEE") {
-                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listSalariedEmployees`);
+                    response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/listSalariedEmployees`);
                 } else if (filterType === "HOURLY_EMPLOYEE") {
-                    response = await axios.get(`http://localhost:8081/${user.storeId}/employees/listHourlyEmployees`);
+                    response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/listHourlyEmployees`);
                 }
                 setEmployees(response.data);
             } catch (error) {

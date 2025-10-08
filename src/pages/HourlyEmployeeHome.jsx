@@ -42,7 +42,7 @@ export function HourlyEmployeeHome() {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/hourlyEmployee/${user.userId}`, {
+            const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/get/hourlyEmployee/${user.userId}`, {
             });
             setPayScale(response.data.payScale);
         } catch (err) {
@@ -58,7 +58,7 @@ export function HourlyEmployeeHome() {
         if (!confirmed) return;
 
         try {
-            const response = await axios.post(`http://localhost:8081/${user.storeId}/attendance/punchIn`, {
+            const response = await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/attendance/punchIn`, {
                 id: "",
                 employeeId: user.userId,
                 verifierId: "",
@@ -79,7 +79,7 @@ export function HourlyEmployeeHome() {
 
 
         try {
-            await axios.put(`http://localhost:8081/${user.storeId}/attendance/punchOut`, {
+            await axios.put(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/attendance/punchOut`, {
                 id: user.userId,
                 punchOutTime: timestamp,
             });

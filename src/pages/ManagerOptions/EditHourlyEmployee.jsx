@@ -19,7 +19,7 @@ export function EditHourlyEmployee() {
             setLoading(true);
             try {
                 const response = await axios.get(
-                    `http://localhost:8081/${user.storeId}/employees/get/hourlyEmployee/${employeeId}`,
+                    `https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/get/hourlyEmployee/${employeeId}`,
                     { params: { employeeId } }
                 );
                 const data = response.data;

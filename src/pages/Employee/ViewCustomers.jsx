@@ -12,7 +12,7 @@ export function ViewCustomers() {
     useEffect(() => {
         const fetchCustomers = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/customer/get/all`);
+                const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/customer/get/all`);
                 setCustomers(response.data);
             } catch (error) {
                 console.error("Failed to fetch customers:", error);

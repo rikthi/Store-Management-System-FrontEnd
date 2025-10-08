@@ -30,7 +30,7 @@ export function AddCustomer() {
         setSuccess("");
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/customer/create`, customer);
+            await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/customer/create`, customer);
             setCustomer({
                 id: "",
                 name: "",

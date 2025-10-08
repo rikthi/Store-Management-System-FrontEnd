@@ -18,7 +18,7 @@ export function EditSalariedEmployee() {
         const fetchSalariedEmployee = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/salariedEmployee/${employeeId}`, {
+                const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/get/salariedEmployee/${employeeId}`, {
                     params: { employeeId }
                 });
                 const data = response.data;

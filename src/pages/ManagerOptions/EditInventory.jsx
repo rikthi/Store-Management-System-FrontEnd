@@ -15,7 +15,7 @@ export function EditInventory() {
         const fetchInventory = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8081/${user.storeId}/inventory/${inventoryId}/get`
+                    `https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/${inventoryId}/get`
                 );
                 setInventoryData(response.data);
             } catch (err) {

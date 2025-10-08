@@ -12,7 +12,7 @@ export function VerifyAttendance() {
     useEffect(() => {
         const fetchAttendance = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/attendance`);
+                const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/attendance`);
                 setAttendances(response.data);
             } catch (err) {
                 setError("Failed to load attendance records.");

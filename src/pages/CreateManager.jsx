@@ -49,7 +49,7 @@ export function CreateManager() {
 
         try {
             const response = await axios.post(
-                `http://localhost:8081/${storeId}/employees/create/manager`,
+                `https://store-management-system-backend-tv88.onrender.com/${storeId}/employees/create/manager`,
                 payload
             );
 

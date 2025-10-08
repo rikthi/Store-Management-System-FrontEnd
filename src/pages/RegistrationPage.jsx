@@ -15,7 +15,7 @@ export function RegistrationPage() {
         setError("");
 
         try {
-            const response = await axios.post("http://localhost:8081/user/create", {
+            const response = await axios.post("https://store-management-system-backend-tv88.onrender.com/user/create", {
                 employeeId,
                 userId,
                 password,

@@ -50,7 +50,7 @@ export function AddSalariedEmployee() {
         }
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/employees/create/salariedEmployee`, {
+            await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/create/salariedEmployee`, {
                 employee: employeeData,
                 salary: parseFloat(salary)
             });

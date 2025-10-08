@@ -16,7 +16,7 @@ export function OrderItem() {
     useEffect(() => {
         const fetchItem = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/inventory/items/${itemId}/get`);
+                const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/items/${itemId}/get`);
                 setItem(response.data);
             } catch (err) {
                 setError("Failed to fetch item.");

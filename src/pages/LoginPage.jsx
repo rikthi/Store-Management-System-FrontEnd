@@ -16,7 +16,7 @@ export function LoginPage() {
         setError("");
 
         try {
-            const response = await axios.post("http://localhost:8081/user/login", {
+            const response = await axios.post("https://store-management-system-backend-tv88.onrender.com/user/login", {
                 userId, email, password,
             });
 

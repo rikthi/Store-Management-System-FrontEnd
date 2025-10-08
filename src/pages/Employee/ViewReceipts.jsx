@@ -13,7 +13,7 @@ export function ViewReceipts() {
         const fetchReceipts = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:8081/${user.storeId}/customer/receipt/get/${customerId}`
+                    `https://store-management-system-backend-tv88.onrender.com/${user.storeId}/customer/receipt/get/${customerId}`
                 );
                 setReceipts(response.data);
             } catch (err) {

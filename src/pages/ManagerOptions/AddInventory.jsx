@@ -60,7 +60,7 @@ export function AddInventory() {
 
         setLoading(true);
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/inventory/create`, {
+            await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/create`, {
                 id: "",
                 category,
                 currentStockLevel: current,

@@ -13,8 +13,8 @@ export function StoreDetails() {
         const fetchDetails = async () => {
             try {
                 const [storeRes, managerRes] = await Promise.all([
-                    axios.get(`http://localhost:8081/stores/get/${user.storeId}`),
-                    axios.get(`http://localhost:8081/${user.storeId}/employees/get/manager`)
+                    axios.get(`https://store-management-system-backend-tv88.onrender.com/stores/get/${user.storeId}`),
+                    axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/get/manager`)
                 ]);
                 setStore(storeRes.data);
                 setManager(managerRes.data);

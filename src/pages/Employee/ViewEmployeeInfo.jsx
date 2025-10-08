@@ -13,7 +13,7 @@ export function ViewEmployeeInfo() {
             setLoading(true);
             try {
                 const response = await axios.post(
-                    `http://localhost:8081/${user.storeId}/employees/getEmployee`,
+                    `https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/getEmployee`,
                     { params: user.userId }
                 );
                 const emp = response.data;

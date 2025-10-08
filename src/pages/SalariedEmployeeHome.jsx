@@ -38,7 +38,7 @@ export function SalariedEmployeeHome() {
         setLoading(true);
         setError("");
         try {
-            const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/salariedEmployee/${user.userId}`, {
+            const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/get/salariedEmployee/${user.userId}`, {
                 params: { userId: user.userId }
             });
             setSalary(response.data);
@@ -55,7 +55,7 @@ export function SalariedEmployeeHome() {
         if (!confirmed) return;
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/attendance/punchIn`, {
+            await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/attendance/punchIn`, {
                 id: "",
                 employeeId: user.userId,
                 verifierId: "",
@@ -75,7 +75,7 @@ export function SalariedEmployeeHome() {
         if (!confirmed) return;
 
         try {
-            await axios.put(`http://localhost:8081/${user.storeId}/attendance/punchOut`, {
+            await axios.put(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/attendance/punchOut`, {
                 id: user.userId,
                 punchOutTime: timestamp,
             });

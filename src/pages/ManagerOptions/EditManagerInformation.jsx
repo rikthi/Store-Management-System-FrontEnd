@@ -13,7 +13,7 @@ export function EditManagerInformation() {
     useEffect(() => {
         const fetchManager = async () => {
             try {
-                const response = await axios.get(`http://localhost:8081/${user.storeId}/employees/get/manager`);
+                const response = await axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/employees/get/manager`);
                 setManager(response.data);
                 setForm({ ...response.data.employee });
             } catch (err) {

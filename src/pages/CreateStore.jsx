@@ -25,7 +25,7 @@ export function CreateStore() {
         setSuccess("");
 
         try {
-            const response = await axios.post(`http://localhost:8081/stores/create`, storeData);
+            const response = await axios.post(`https://store-management-system-backend-tv88.onrender.com/stores/create`, storeData);
             const createdStore = response.data; // expecting { id, name, address }
             setSuccess("Store created successfully!");
 

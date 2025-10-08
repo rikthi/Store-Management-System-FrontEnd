@@ -55,7 +55,7 @@ export function AddNewItem() {
         };
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/inventory/${inventoryId}/addItem`, payload);
+            await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/${inventoryId}/addItem`, payload);
             setSuccess("Item added successfully!");
             setTimeout(() => navigate("/ManagerOptions/ViewCategories"), 1500);
         } catch (err) {

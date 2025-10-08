@@ -34,7 +34,7 @@ export function CreateReceipt() {
         }
 
         try {
-            await axios.post(`http://localhost:8081/${user.storeId}/customer/receipt/create`, receipt);
+            await axios.post(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/customer/receipt/create`, receipt);
                 setSuccess("Receipt added successfully!");
                 setReceipt({
                     id: "",
