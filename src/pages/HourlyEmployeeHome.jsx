@@ -92,7 +92,7 @@ export function HourlyEmployeeHome() {
     return (
         <div
             className="relative flex flex-col items-center justify-center h-screen bg-cover bg-center"
-            style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
+            style={{ backgroundImage: "url('/loginBg.jpg')" }}
         >
             <div className="absolute inset-0 bg-black opacity-50"></div>
             <div className="relative z-10 flex flex-col items-center justify-center space-y-6 bg-white bg-opacity-80 p-8 rounded-lg shadow-lg">

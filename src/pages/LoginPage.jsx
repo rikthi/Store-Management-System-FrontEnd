@@ -37,7 +37,7 @@ export function LoginPage() {
 
     return (
         <div className="page-background"
-             style={{ backgroundImage: "url('src/assets/loginBg.jpg')" }}
+             style={{ backgroundImage: "url('/loginBg.jpg')" }}
         >
             <div className="bg-white p-8 rounded-lg shadow-lg w-96 text-center bg-opacity-90">
                 <h2 className="text-2xl font-bold mb-6">Login</h2>
