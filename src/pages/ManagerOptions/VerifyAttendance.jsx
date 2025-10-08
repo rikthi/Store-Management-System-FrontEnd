@@ -34,7 +34,7 @@ export function VerifyAttendance() {
         setVerifyingId(attendanceId);
         try {
             await axios.put(
-                `http://localhost:8081/${user.storeId}/attendance/verify`,
+                `https://store-management-system-backend-tv88.onrender.com/${user.storeId}/attendance/verify`,
                 updatedAttendance
             );
 
