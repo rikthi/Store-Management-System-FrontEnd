@@ -52,8 +52,8 @@ export function StockReport() {
             setLoading(true);
             try {
                 const [itemsResponse, reportResponse] = await Promise.all([
-                    axios.get(`http://localhost:8081/${user.storeId}/inventory/${selectedInventory.id}/listAllItems`),
-                    axios.get(`http://localhost:8081/${user.storeId}/inventory/${selectedInventory.id}/stockReport`)
+                    axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/${selectedInventory.id}/listAllItems`),
+                    axios.get(`https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/${selectedInventory.id}/stockReport`)
                 ]);
                 setItems(itemsResponse.data);
                 setReport(reportResponse.data);
