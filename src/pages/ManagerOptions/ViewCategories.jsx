@@ -33,7 +33,7 @@ export function ViewCategories() {
             setLoading(true);
             try {
                 const response = await axios.get(
-                    `http://localhost:8081/${user.storeId}/inventory/${selectedInventory.id}/listAllItems`
+                    `https://store-management-system-backend-tv88.onrender.com/${user.storeId}/inventory/${selectedInventory.id}/listAllItems`
                 );
                 setItems(response.data);
             } catch (err) {
